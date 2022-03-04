@@ -7,11 +7,16 @@ use App\Repository\RecipeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 
 /**
- * @ApiResource()
  * @ORM\Entity(repositoryClass=RecipeRepository::class)
  * @ORM\HasLifecycleCallbacks
+ * @ApiResource(
+ *     normalizationContext={"groups"={"recipe:read"}},
+ *     denormalizationContext={"groups"={"recipe:write"}}
+ * )
  */
 class Recipe
 {
@@ -19,31 +24,61 @@ class Recipe
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({
+     *     "recipe:read",
+     *     "meal:read",
+     *     "foodplan:read"
+     * })
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({
+     *     "recipe:read","recipe:write",
+     *     "meal:read","meal:write",
+     *     "foodplan:read"
+     * })
      */
     private $wording;
 
     /**
      * @ORM\Column(type="datetime_immutable")
+     * @Groups({
+     *     "recipe:read",
+     *     "meal:read",
+     *     "foodplan:read"
+     * })
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
+     * @Groups({
+     *     "recipe:read",
+     *     "meal:read",
+     *     "foodplan:read"
+     * })
      */
     private $updatedAt;
 
     /**
      * @ORM\OneToMany(targetEntity=Step::class, mappedBy="recipe", orphanRemoval=true)
+     * @Groups({
+     *     "recipe:read",
+     *     "meal:read",
+     *     "foodplan:read"
+     * })
      */
     private $steps;
 
     /**
      * @ORM\ManyToMany(targetEntity=Utensil::class)
+     * @Groups({
+     *     "recipe:read",
+     *     "meal:read",
+     *     "foodplan:read"
+     * })
      */
     private $utensils;
 

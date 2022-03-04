@@ -7,11 +7,15 @@ use App\Repository\MealRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource()
  * @ORM\Entity(repositoryClass=MealRepository::class)
  * @ORM\HasLifecycleCallbacks
+ * @ApiResource(
+ *     normalizationContext={"groups"={"meal:read"}},
+ *     denormalizationContext={"groups"={"meal:write"}}
+ * )
  */
 class Meal
 {
@@ -19,36 +23,63 @@ class Meal
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({
+     *     "meal:read",
+     *     "foodplan:read"
+     * })
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({
+     *     "meal:read", "meal:write",
+     *     "foodplan:read"
+     * })
      */
     private $wording;
 
     /**
      * @ORM\Column(type="datetime_immutable")
+     * @Groups({
+     *     "meal:read",
+     *     "foodplan:read"
+     * })
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
+     * @Groups({
+     *     "meal:read",
+     *     "foodplan:read"
+     * })
      */
     private $updatedAt;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="meals")
+     * @Groups({
+     *     "meal:read",
+     * })
      */
     private $user;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Food::class, inversedBy="meals")
+     * @ORM\ManyToMany(targetEntity=Food::class, inversedBy="meals",cascade={"persist"})
+     * @Groups({
+     *     "meal:read","meal:write",
+     *     "foodplan:read"
+     * })
      */
     private $foods;
 
     /**
      * @ORM\ManyToOne(targetEntity=Recipe::class)
+     * @Groups({
+     *     "meal:read","meal:write",
+     *     "foodplan:read"
+     * })
      */
     private $recipe;
 

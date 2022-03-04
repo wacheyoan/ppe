@@ -5,11 +5,15 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\StepRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource()
  * @ORM\Entity(repositoryClass=StepRepository::class)
  * @ORM\HasLifecycleCallbacks
+ * @ApiResource(
+ *     normalizationContext={"groups"={"step:read"}},
+ *     denormalizationContext={"groups"={"step:write"}}
+ * )
  */
 class Step
 {
@@ -17,21 +21,45 @@ class Step
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({
+     *     "recipe:read",
+     *     "meal:read",
+     *     "step:read",
+     *     "foodplan:read"
+     * })
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({
+     *     "recipe:read",
+     *     "meal:read",
+     *     "step:read",
+     *     "foodplan:read"
+     * })
      */
     private $wording;
 
     /**
      * @ORM\Column(type="datetime_immutable")
+     * @Groups({
+     *     "recipe:read",
+     *     "meal:read",
+     *     "step:read",
+     *     "foodplan:read"
+     * })
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
+     * @Groups({
+     *     "recipe:read",
+     *     "meal:read",
+     *     "step:read",
+     *     "foodplan:read"
+     * })
      */
     private $updatedAt;
 

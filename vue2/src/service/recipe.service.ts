@@ -1,0 +1,14 @@
+import recipeRepository from "@/repository/recipe.repository";
+import recipeFactory from "@/factory/recipe.factory";
+import {Recipe} from "@/interfaces/recipe.interface";
+
+export default {
+    async getAllRecipes() {
+        const rawRecipes = await recipeRepository.getAllRecipes();
+        const recipes: Recipe[] = [];
+        rawRecipes['hydra:member'].forEach((rawRecipe: any) => {
+            recipes.push(recipeFactory.formatRawRecipeToRecipe(rawRecipe));
+        })
+        return recipes;
+    }
+}

@@ -7,11 +7,16 @@ use App\Repository\FoodRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+
 
 /**
- * @ApiResource()
  * @ORM\Entity(repositoryClass=FoodRepository::class)
  * @ORM\HasLifecycleCallbacks
+ * @ApiResource(
+ *     normalizationContext={"groups"={"food:read"}},
+ *     denormalizationContext={"groups"={"food:write"}}
+ * )
  */
 class Food
 {
@@ -19,56 +24,111 @@ class Food
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({
+     *     "food:read",
+     *     "meal:read",
+     *     "foodplan:read"
+     * })
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({
+     *     "food:read","food:write",
+     *     "meal:read","meal:write",
+     *     "foodplan:read"
+     * })
      */
     private $wording;
 
     /**
      * @ORM\Column(type="string", length=255,nullable=true)
+     * @Groups({
+     *     "food:read","food:write",
+     *     "meal:read","meal:write",
+     *     "foodplan:read"
+     * })
      */
     private $photo;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups({
+     *     "food:read","food:write",
+     *     "meal:read","meal:write",
+     *     "foodplan:read"
+     * })
      */
     private $carbohydrate;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups({
+     *     "food:read","food:write",
+     *     "meal:read","meal:write",
+     *     "foodplan:read"
+     * })
      */
     private $sugar;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups({
+     *     "food:read","food:write",
+     *     "meal:read","meal:write",
+     *     "foodplan:read"
+     * })
      */
     private $protein;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups({
+     *     "food:read","food:write",
+     *     "meal:read","meal:write",
+     *     "foodplan:read"
+     * })
      */
     private $fat;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups({
+     *     "food:read","food:write",
+     *     "meal:read","meal:write",
+     *     "foodplan:read"
+     * })
      */
     private $saturatedFat;
 
     /**
      * @ORM\Column(type="boolean")
+     * @Groups({
+     *     "food:read","food:write",
+     *     "meal:read","meal:write",
+     *     "foodplan:read"
+     * })
      */
     private $vegan;
 
     /**
      * @ORM\Column(type="datetime_immutable")
+     * @Groups({
+     *     "food:read",
+     *     "meal:read",
+     *     "foodplan:read"
+     * })
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
+     * @Groups({
+     *     "food:read",
+     *     "meal:read",
+     *     "foodplan:read"
+     * })
      */
     private $updatedAt;
 
@@ -78,7 +138,12 @@ class Food
     private $user;
 
     /**
-     * @ORM\ManyToMany(targetEntity=FoodCategory::class, inversedBy="foods")
+     * @ORM\ManyToMany(targetEntity=FoodCategory::class, inversedBy="foods",cascade={"persist"})
+     * @Groups({
+     *     "food:read","food:write",
+     *     "meal:read","meal:write",
+     *     "foodplan:read"
+     * })
      */
     private $category;
 

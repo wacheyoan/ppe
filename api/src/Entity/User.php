@@ -28,19 +28,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
-     * @Groups("user:read")
+     * @Groups({
+     *     "user:read",
+     *     "meal:read",
+     *     "foodplan:read"
+     * })
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-     * @Groups({"user:read", "user:write"})
+     * @Groups({
+     *     "user:read", "user:write",
+     *     "meal:read",
+     *     "foodplan:read"
+     * })
      */
     private $email;
 
     /**
      * @ORM\Column(type="json")
-     * @Groups("user:read")
+     * @Groups({
+     *     "user:read",
+     *     "meal:read",
+     *     "foodplan:read"
+     * })
      */
     private $roles = [];
 
@@ -58,37 +70,61 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"user:read", "user:write"})
+     * @Groups({
+     *     "user:read", "user:write",
+     *     "meal:read",
+     *     "foodplan:read"
+     * })
      */
     private $pseudo;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"user:read", "user:write"})
+     * @Groups({
+     *     "user:read", "user:write",
+     *     "meal:read",
+     *     "foodplan:read"
+     * })
      */
     private $phone;
 
     /**
      * @ORM\Column(type="float", nullable=true)
-     * @Groups({"user:read", "user:write"})
+     * @Groups({
+     *     "user:read", "user:write",
+     *     "meal:read",
+     *     "foodplan:read"
+     * })
      */
     private $weight;
 
     /**
      * @ORM\Column(type="float", nullable=true)
-     * @Groups({"user:read", "user:write"})
+     * @Groups({
+     *     "user:read", "user:write",
+     *     "meal:read",
+     *     "foodplan:read"
+     * })
      */
     private $height;
 
     /**
      * @ORM\Column(type="datetime_immutable")
-     * @Groups("user:read")
+     * @Groups({
+     *     "user:read",
+     *     "meal:read",
+     *     "foodplan:read"
+     * })
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
-     * @Groups("user:read")
+     * @Groups({
+     *     "user:read",
+     *     "meal:read",
+     *     "foodplan:read"
+     * })
      * 
      */
     private $updatedAt;

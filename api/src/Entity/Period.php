@@ -5,11 +5,15 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\PeriodRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
- * @ApiResource()
  * @ORM\Entity(repositoryClass=PeriodRepository::class)
  * @ORM\HasLifecycleCallbacks
+ * @ApiResource(
+ *     normalizationContext={"groups"={"period:read"}},
+ *     denormalizationContext={"groups"={"period:write"}}
+ * )
  */
 class Period
 {
@@ -17,26 +21,44 @@ class Period
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({
+     *     "period:read",
+     *     "foodplan:read"
+     * })
      */
     private $id;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({
+     *     "period:read","period:write",
+     *     "foodplan:read"
+     * })
      */
     private $start;
 
     /**
      * @ORM\Column(type="datetime")
+     * @Groups({
+     *     "period:read","period:write",
+     *     "foodplan:read"
+     * })
      */
     private $end;
 
     /**
      * @ORM\Column(type="datetime_immutable")
+     * @Groups({
+     *     "period:read"
+     * })
      */
     private $createdAt;
 
     /**
      * @ORM\Column(type="datetime_immutable", nullable=true)
+     * @Groups({
+     *     "period:read",
+     * })
      */
     private $updatedAt;
 
