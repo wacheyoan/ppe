@@ -14,8 +14,7 @@ export default {
                     password: password
                 })
             })
-            const response = await httpCall.json();
-            return response;
+            return await httpCall.json();
         }
         catch (httpException) {
             throw new Error(`An error happened during the login call`);

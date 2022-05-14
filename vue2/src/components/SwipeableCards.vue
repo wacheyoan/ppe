@@ -1,10 +1,5 @@
 <template>
   <section class="container">
-    <div class="fixed header">
-      <i class="material-icons" @click="index = 0">refresh</i>
-      <span>Kittynder</span>
-      <i class="material-icons">tune</i>
-    </div>
     <div
         v-if="current"
         class="fixed fixed--center"
@@ -24,7 +19,7 @@
           class="rounded-borders card card--one">
         <div style="height: 100%">
           <img
-              :src="require(`../../src/assets/images/${current.src}`)"
+              :src="require(`../../src/assets/images/${current.photo ? current.photo : 'logo.png'}`)"
               class="rounded-borders"/>
           <div class="text">
             <h2>{{ current.wording }}</h2>
@@ -38,7 +33,7 @@
         style="z-index: 2">
       <div style="height: 100%">
         <img
-            :src="require(`../../src/assets/images/${next.src}`)"
+            :src="require(`../../src/assets/images/${next.photo ? next.photo : 'logo.png'}`)"
             class="rounded-borders"/>
         <div class="text">
           <h2>{{ next.name }}</h2>
@@ -54,13 +49,13 @@
     </div>
     <div class="footer fixed">
       <div class="btn btn--decline" @click="reject">
-        <i class="material-icons">close</i>
+        <v-icon color="black" large>mdi-close</v-icon>
       </div>
       <div class="btn btn--skip" @click="skip">
-        <i class="material-icons">call_missed</i>
+        <v-icon color="green" large>mdi-star</v-icon>
       </div>
       <div class="btn btn--like" @click="match">
-        <i class="material-icons">favorite</i>
+        <v-icon color="white" dense>mdi-heart</v-icon>
       </div>
     </div>
   </section>
@@ -160,7 +155,7 @@ export default {
   width: 77vw;
   bottom: 0;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translate(-50%,-90%);
   display: flex;
   padding-bottom: 30px;
   justify-content: space-around;
@@ -190,9 +185,6 @@ export default {
     left: 50%;
     transform: translate(-50%, -50%);
 
-    &::before {
-      content: '';
-    }
   }
 
   &--like {
@@ -230,7 +222,7 @@ export default {
   &--center {
     left: 50%;
     top: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -60%);
   }
 }
 
@@ -248,6 +240,7 @@ export default {
     display: block;
     width: 100%;
     height: 100%;
+    background: white;
   }
 
   &--one {
@@ -255,13 +248,13 @@ export default {
   }
 
   &--two {
-    transform: translate(-48%, -48%);
+    transform: translate(-48%, -58%);
     box-shadow: 0 6px 6px -3px rgba(0, 0, 0, .2), 0 10px 14px 1px rgba(0, 0, 0, .14), 0 4px 18px 3px rgba(0, 0, 0, .12);
   }
 
   &--three {
-    background: rgba(black, .8);
-    transform: translate(-46%, -46%);
+    background: rgba(white, .8);
+    transform: translate(-46%, -56%);
     box-shadow: 0 10px 13px -6px rgba(0, 0, 0, .2), 0 20px 31px 3px rgba(0, 0, 0, .14), 0 8px 38px 7px rgba(0, 0, 0, .12);
   }
 

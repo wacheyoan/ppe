@@ -35,6 +35,8 @@
 </template>
 
 <script>
+import {mapActions} from "vuex";
+
 export default {
   data () {
     return {
@@ -54,12 +56,21 @@ export default {
     }
   },
   methods: {
-    validate () {
+    ...mapActions(["LogIn"]),
+    async validate() {
       this.$refs.form.validate();
-      this.$store.dispatch('login',{
-        email:this.email,
-        password:this.password
-      });
+      const User = new FormData();
+      User.append("username", this.email);
+      User.append("password", this.password);
+      try {
+        await this.LogIn(User).then(res => {
+            this.$router.push("/");
+        }).catch(err => {
+          console.log(err);
+        });
+      } catch (error) {
+        this.showError = true
+      }
     },
   },
 }

@@ -3,6 +3,8 @@ import Vuex from 'vuex'
 import { Meal } from "@/interfaces/meal.interface";
 import mealService from "@/service/meal.service";
 import loginService from "@/service/login.service";
+import createPersistedState from "vuex-persistedstate";
+import auth from './modules/auth';
 
 Vue.use(Vuex)
 
@@ -25,8 +27,22 @@ export default new Vuex.Store({
       context.commit("updateGetterAllMeals");
     },
     async login({state}, {email, password}: {email:string,password:string}){
-      await loginService.login(email,password);
+      const response = await loginService.login(email,password);
+
+      if(response.status === 401){
+        return response.message;
+      }
+
+      if(response.token){
+        localStorage.setItem("token", response.token);
+      }
+    },
+    async logout(){
+      localStorage.removeItem("token");
     }
   },
-  modules: {},
+  modules: {
+    auth
+  },
+  plugins: [createPersistedState()]
 })

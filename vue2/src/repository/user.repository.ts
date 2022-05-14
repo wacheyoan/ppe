@@ -10,5 +10,6 @@ export default {
             throw new Error(`An error happened during the users call`);
         }
 
-    }
+    },
+
 }

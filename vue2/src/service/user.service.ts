@@ -10,5 +10,6 @@ export default {
             users.push(userFactory.formatRawUserToUser(rawUser));
         })
         return users;
-    }
+    },
+
 }
