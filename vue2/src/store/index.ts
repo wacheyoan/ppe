@@ -30,6 +30,7 @@ export default new Vuex.Store({
   },
   mutations: {
     async updateGetterAllMeals(state) {
+      // @ts-ignore
       state.allMeals = await mealService.getMealsNotLikedOrDisliked(this.state.auth.user.id);
     },
     async updateGetterAllActivities(state) {
