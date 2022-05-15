@@ -47,7 +47,7 @@
       <div style="height: 100%">
       </div>
     </div>
-    <div class="footer fixed">
+    <div class="footer fixed" v-if="current">
       <div class="btn btn--decline" @click="reject">
         <v-icon color="black" large>mdi-close</v-icon>
       </div>
@@ -57,6 +57,9 @@
       <div class="btn btn--like" @click="match">
         <v-icon color="white" dense>mdi-heart</v-icon>
       </div>
+    </div>
+    <div v-if="!current">
+      Plus d'aliments à filtrer !
     </div>
   </section>
 </template>

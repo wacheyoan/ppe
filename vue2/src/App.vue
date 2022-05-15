@@ -57,4 +57,8 @@ export default Vue.extend({
     height: 100% !important;
   }
 }
+ form{
+   width: 100%;
+
+ }
 </style>
