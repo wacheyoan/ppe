@@ -2,14 +2,28 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @ORM\Table(name="`user`")
+ * @ORM\HasLifecycleCallbacks
+ * @ApiResource(
+ *     normalizationContext={"groups"={"user:read"}},
+ *     denormalizationContext={"groups"={"user:write"}}
+ * )
+ * @ApiFilter(SearchFilter::class,  properties={"email": "exact"})
+ * 
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -17,16 +31,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({
+     *     "user:read",
+     *     "meal:read",
+     *     "foodplan:read"
+     * })
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Groups({
+     *     "user:read", "user:write",
+     *     "meal:read",
+     *     "foodplan:read"
+     * })
      */
     private $email;
 
     /**
      * @ORM\Column(type="json")
+     * @Groups({
+     *     "user:read",
+     *     "meal:read",
+     *     "foodplan:read"
+     * })
      */
     private $roles = [];
 
@@ -38,23 +67,151 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({
+     *     "user:read", "user:write",
+     *     "meal:read",
+     *     "foodplan:read"
+     * })
+     */
+    private $firstName;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Groups({
+     *     "user:read", "user:write",
+     *     "meal:read",
+     *     "foodplan:read"
+     * })
+     */
+    private $lastName;
+    
+
+    /**
+     * @Groups("user:write")
+     * @SerializedName("password")
+     */
+    private $plainPassword;
+
+    /**
+     * @ORM\Column(type="string", length=255,nullable=true)
+     * @Groups({
+     *     "user:read", "user:write",
+     *     "meal:read",
+     *     "foodplan:read"
+     * })
      */
     private $pseudo;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({
+     *     "user:read", "user:write",
+     *     "meal:read",
+     *     "foodplan:read"
+     * })
      */
     private $phone;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({
+     *     "user:read", "user:write",
+     *     "meal:read",
+     *     "foodplan:read"
+     * })
      */
     private $weight;
 
     /**
      * @ORM\Column(type="float", nullable=true)
+     * @Groups({
+     *     "user:read", "user:write",
+     *     "meal:read",
+     *     "foodplan:read"
+     * })
      */
     private $height;
+
+    /**
+     * @ORM\Column(type="datetime_immutable")
+     * @Groups({
+     *     "user:read",
+     *     "meal:read",
+     *     "foodplan:read"
+     * })
+     */
+    private $createdAt;
+
+    /**
+     * @ORM\Column(type="datetime_immutable", nullable=true)
+     * @Groups({
+     *     "user:read",
+     *     "meal:read",
+     *     "foodplan:read"
+     * })
+     * 
+     */
+    private $updatedAt;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Activity::class)
+     */
+    private $activity;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Progression::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $progressions;
+
+    /**
+     * @ORM\ManyToOne(targetEntity=Objective::class)
+     */
+    private $objective;
+
+    /**
+     * @ORM\OneToMany(targetEntity=FoodPlan::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $foodPlan;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Meal::class, mappedBy="user")
+     */
+    private $meals;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Food::class, mappedBy="user")
+     */
+    private $food;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Meal::class, mappedBy="userLike")
+     */
+    private $likedMeals;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Meal::class, mappedBy="userDislike")
+     */
+    private $dislikedMeals;
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $birthDate;
+
+    /**
+     * @ORM\Column(type="string", length=1)
+     */
+    private $gender;
+
+    public function __construct()
+    {
+        $this->progressions = new ArrayCollection();
+        $this->foodPlan = new ArrayCollection();
+        $this->meals = new ArrayCollection();
+        $this->food = new ArrayCollection();
+        $this->likedMeals = new ArrayCollection();
+        $this->dislikedMeals = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -141,8 +298,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function eraseCredentials()
     {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
+        $this->plainPassword = null;
+    }
+
+    public function getPlainPassword(){
+        return $this->plainPassword;
+    }
+
+    public function setPlainPassword($password){
+        $this->plainPassword = $password;
     }
 
     public function getPseudo(): ?string
@@ -192,4 +356,300 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function onPrePersist()
+    {
+        $this->createdAt = new \DateTimeImmutable("now");
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function onPreUpdate()
+    {
+        $this->updatedAt = new \DateTimeImmutable("now");
+    }
+
+    public function getActivity(): ?Activity
+    {
+        return $this->activity;
+    }
+
+    public function setActivity(?Activity $activity): self
+    {
+        $this->activity = $activity;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Progression>
+     */
+    public function getProgressions(): Collection
+    {
+        return $this->progressions;
+    }
+
+    public function addProgression(Progression $progression): self
+    {
+        if (!$this->progressions->contains($progression)) {
+            $this->progressions[] = $progression;
+            $progression->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProgression(Progression $progression): self
+    {
+        if ($this->progressions->removeElement($progression)) {
+            // set the owning side to null (unless already changed)
+            if ($progression->getUser() === $this) {
+                $progression->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getObjective(): ?Objective
+    {
+        return $this->objective;
+    }
+
+    public function setObjective(?Objective $objective): self
+    {
+        $this->objective = $objective;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, FoodPlan>
+     */
+    public function getFoodPlan(): Collection
+    {
+        return $this->foodPlan;
+    }
+
+    public function addFoodPlan(FoodPlan $foodPlan): self
+    {
+        if (!$this->foodPlan->contains($foodPlan)) {
+            $this->foodPlan[] = $foodPlan;
+            $foodPlan->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFoodPlan(FoodPlan $foodPlan): self
+    {
+        if ($this->foodPlan->removeElement($foodPlan)) {
+            // set the owning side to null (unless already changed)
+            if ($foodPlan->getUser() === $this) {
+                $foodPlan->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Meal>
+     */
+    public function getMeals(): Collection
+    {
+        return $this->meals;
+    }
+
+    public function addMeal(Meal $meal): self
+    {
+        if (!$this->meals->contains($meal)) {
+            $this->meals[] = $meal;
+            $meal->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMeal(Meal $meal): self
+    {
+        if ($this->meals->removeElement($meal)) {
+            // set the owning side to null (unless already changed)
+            if ($meal->getUser() === $this) {
+                $meal->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Food>
+     */
+    public function getFood(): Collection
+    {
+        return $this->food;
+    }
+
+    public function addFood(Food $food): self
+    {
+        if (!$this->food->contains($food)) {
+            $this->food[] = $food;
+            $food->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFood(Food $food): self
+    {
+        if ($this->food->removeElement($food)) {
+            // set the owning side to null (unless already changed)
+            if ($food->getUser() === $this) {
+                $food->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Meal>
+     */
+    public function getLikedMeals(): Collection
+    {
+        return $this->likedMeals;
+    }
+
+    public function addLikedMeal(Meal $likedMeal): self
+    {
+        if (!$this->likedMeals->contains($likedMeal)) {
+            $this->likedMeals[] = $likedMeal;
+            $likedMeal->addUserLike($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLikedMeal(Meal $likedMeal): self
+    {
+        if ($this->likedMeals->removeElement($likedMeal)) {
+            $likedMeal->removeUserLike($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Meal>
+     */
+    public function getDislikedMeals(): Collection
+    {
+        return $this->dislikedMeals;
+    }
+
+    public function addDislikedMeal(Meal $dislikedMeal): self
+    {
+        if (!$this->dislikedMeals->contains($dislikedMeal)) {
+            $this->dislikedMeals[] = $dislikedMeal;
+            $dislikedMeal->addUserDislike($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDislikedMeal(Meal $dislikedMeal): self
+    {
+        if ($this->dislikedMeals->removeElement($dislikedMeal)) {
+            $dislikedMeal->removeUserDislike($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFirstName()
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * @param mixed $firstName
+     */
+    public function setFirstName($firstName): void
+    {
+        $this->firstName = $firstName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastName()
+    {
+        return $this->lastName;
+    }
+
+    /**
+     * @param mixed $lastName
+     */
+    public function setLastName($lastName): void
+    {
+        $this->lastName = $lastName;
+    }
+
+    public function getBirthDate(): ?\DateTimeInterface
+    {
+        return $this->birthDate;
+    }
+
+    public function setBirthDate(\DateTimeInterface $birthDate): self
+    {
+        $this->birthDate = $birthDate;
+
+        return $this;
+    }
+
+    public function getGender(): ?string
+    {
+        return $this->gender;
+    }
+
+    public function setGender(string $gender): self
+    {
+        $this->gender = $gender;
+
+        return $this;
+    }
+
+
 }
