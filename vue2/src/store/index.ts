@@ -16,6 +16,10 @@ export default new Vuex.Store({
     allMeals: [] as Meal[],
     allActivities: [] as Activity[],
     allObjectives: [] as Objective[],
+    auth: {
+      isAuthenticated: false,
+      user: null as any
+    }
   },
   getters: {
     allMeals(state): Meal[]{
@@ -30,8 +34,7 @@ export default new Vuex.Store({
   },
   mutations: {
     async updateGetterAllMeals(state) {
-      // @ts-ignore
-      state.allMeals = await mealService.getMealsNotLikedOrDisliked(this.state.auth.user.id);
+      state.allMeals = await mealService.getMealsNotLikedOrDisliked(state.auth.user.id);
     },
     async updateGetterAllActivities(state) {
       state.allActivities = await activityService.getAllActivities();
