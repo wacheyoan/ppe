@@ -22,15 +22,32 @@ class MealUserFilter extends AbstractContextAwareFilter
         if ($property === 'disorliked') {
 
             $alias = $queryBuilder->getRootAliases()[0];
-            $queryBuilder->leftJoin($alias . '.userLike', 'ul')
-                ->leftJoin($alias . '.userDislike', 'ud')
-                ->andWhere('ul.id != :valueParameter')
-                ->andWhere('ud.id != :valueParameter')
-                ->orWhere($queryBuilder->expr()->andX(
-                    $queryBuilder->expr()->isNull('ul.id'),
-                    $queryBuilder->expr()->isNull('ud.id')
-                ))
-                ->setParameter("valueParameter", $value);
+            $queryBuilder
+                ->andWhere($alias.'.id NOT IN
+                    ('.
+                        $queryBuilder->getEntityManager()->createQueryBuilder()
+                        ->select('m.id')
+                        ->from('App\Entity\Meal', 'm')
+                        ->leftJoin('m.userDislike', 'd')
+                        ->andWhere('d.id = :user')
+                        ->setParameter('user', $value)
+                        ->getDQL()
+                    .')')
+                ->andWhere(
+                    $alias.'.id NOT IN
+                    ('.
+                    $queryBuilder->getEntityManager()->createQueryBuilder()
+                        ->select('m2.id')
+                        ->from('App\Entity\Meal', 'm2')
+                        ->leftJoin('m2.userLike', 'l')
+                        ->andWhere('l.id = :user')
+                        ->setParameter('user', $value)
+                        ->getDQL()
+                    .')'
+
+                )
+                ->setParameter('user', $value);
+
 
         }
 

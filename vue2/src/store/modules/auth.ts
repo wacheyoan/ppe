@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {Commit} from "vuex";
+import {Commit,Dispatch} from "vuex";
 import {User} from "@/interfaces/user.interface";
 import userService from "@/service/user.service";
 
@@ -11,13 +11,10 @@ const getters = {
     StateUser: (state:{user:User|null}) => state.user,
 };
 const actions = {
-    // async Register({dispatch}, form) {
-    //     await axios.post('register', form)
-    //     const UserForm = new FormData()
-    //     UserForm.append('username', form.username)
-    //     UserForm.append('password', form.password)
-    //     await dispatch('LogIn', UserForm)
-    // },
+    async Register({dispatch }: {dispatch:Dispatch}, form:FormData) {
+        await axios.post('register', form)
+        await dispatch('LogIn', form)
+    },
     async LogIn({commit}: { commit: Commit }, User: FormData) {
         await axios.post('login', {email:User.get('username'), password:User.get('password')},{
             headers: {

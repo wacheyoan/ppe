@@ -1,5 +1,6 @@
 <template>
   <v-app>
+    <v-container fill-height>
     <v-bottom-navigation
         v-model="value"
         dark
@@ -24,6 +25,7 @@
 
     </v-bottom-navigation>
     <router-view></router-view>
+    </v-container>
   </v-app>
 </template>
 

@@ -19,3 +19,8 @@ meal_dislike:
     path: /api/meals/dislike
     methods: ['POST']
     controller: App\Controller\MealController::dislikeAction
+
+register:
+    path: /api/register
+    methods: ['POST']
+    controller: App\Controller\UserController::registerAction

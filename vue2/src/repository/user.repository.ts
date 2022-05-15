@@ -17,7 +17,7 @@ export default {
             return await httpCall.json();
         }
         catch (httpException) {
-            throw new Error(`An error happened during the user call`);
+            throw new Error(`An error happened during the user call :${httpException}`);
         }
     },
 

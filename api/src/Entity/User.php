@@ -66,13 +66,34 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $password;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     * @Groups({
+     *     "user:read", "user:write",
+     *     "meal:read",
+     *     "foodplan:read"
+     * })
+     */
+    private $firstName;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Groups({
+     *     "user:read", "user:write",
+     *     "meal:read",
+     *     "foodplan:read"
+     * })
+     */
+    private $lastName;
+    
+
+    /**
      * @Groups("user:write")
      * @SerializedName("password")
      */
     private $plainPassword;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255,nullable=true)
      * @Groups({
      *     "user:read", "user:write",
      *     "meal:read",
@@ -171,6 +192,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\ManyToMany(targetEntity=Meal::class, mappedBy="userDislike")
      */
     private $dislikedMeals;
+
+    /**
+     * @ORM\Column(type="date")
+     */
+    private $birthDate;
+
+    /**
+     * @ORM\Column(type="string", length=1)
+     */
+    private $gender;
 
     public function __construct()
     {
@@ -563,4 +594,62 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getFirstName()
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * @param mixed $firstName
+     */
+    public function setFirstName($firstName): void
+    {
+        $this->firstName = $firstName;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastName()
+    {
+        return $this->lastName;
+    }
+
+    /**
+     * @param mixed $lastName
+     */
+    public function setLastName($lastName): void
+    {
+        $this->lastName = $lastName;
+    }
+
+    public function getBirthDate(): ?\DateTimeInterface
+    {
+        return $this->birthDate;
+    }
+
+    public function setBirthDate(\DateTimeInterface $birthDate): self
+    {
+        $this->birthDate = $birthDate;
+
+        return $this;
+    }
+
+    public function getGender(): ?string
+    {
+        return $this->gender;
+    }
+
+    public function setGender(string $gender): self
+    {
+        $this->gender = $gender;
+
+        return $this;
+    }
+
+
 }

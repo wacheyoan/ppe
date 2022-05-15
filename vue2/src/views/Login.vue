@@ -17,8 +17,7 @@
         :rules="[rules.required, rules.min]"
         :type="show1 ? 'text' : 'password'"
         name="input-10-1"
-        label="Normal with hint text"
-        hint="At least 8 characters"
+        label="Mot de passe"
         counter
         @click:append="show1 = !show1"
     ></v-text-field>
@@ -29,8 +28,9 @@
         class="mr-4"
         @click="validate"
     >
-      Validate
+      Se connecter
     </v-btn>
+    <router-link to="/register">Pas encore inscrit ?</router-link>
   </v-form>
 </template>
 
@@ -40,38 +40,41 @@ import {mapActions} from "vuex";
 export default {
   data () {
     return {
-      valid: true,
+      valid: false,
       show1: false,
       password: '',
+      error: '',
       rules: {
-        required: value => !!value || 'Required.',
+        required: value => !!value || 'Requis.',
         min: v => v.length >= 2 || 'Min 2 characters',
-        emailMatch: () => (`The email and password you entered don't match`),
+        emailMatch: () => (`L'email et le mot de passe ne correspondent pas.`)
       },
       email: '',
       emailRules: [
-        v => !!v || 'E-mail is required',
-        v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+        v => !!v || 'E-mail est obligatoire',
+        v => /.+@.+\..+/.test(v) || 'E-mail   doit être valide',
       ],
     }
   },
   methods: {
     ...mapActions(["LogIn"]),
     async validate() {
-      this.$refs.form.validate();
-      const User = new FormData();
-      User.append("username", this.email);
-      User.append("password", this.password);
-      try {
-        await this.LogIn(User).then(res => {
+      if(this.$refs.form.validate()) {
+        const User = new FormData();
+        User.append("username", this.email);
+        User.append("password", this.password);
+        try {
+          await this.LogIn(User).then(res => {
             this.$router.push("/");
-        }).catch(err => {
-          console.log(err);
-        });
-      } catch (error) {
-        this.showError = true
+          }).catch(err => {
+            this.error = err
+          });
+        } catch (error) {
+          this.error = error
+        }
       }
     },
   },
 }
 </script>
+

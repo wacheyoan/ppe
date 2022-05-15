@@ -19,6 +19,12 @@ const routes: Array<RouteConfig> = [
     meta: { guest: true }
   },
   {
+    path: '/register',
+    name: 'Register',
+    component: () => import('../views/Register.vue'),
+    meta: { guest: true }
+  },
+  {
     path: '/cook',
     name: 'Cook',
     component: () => import('../views/Cook.vue'),
