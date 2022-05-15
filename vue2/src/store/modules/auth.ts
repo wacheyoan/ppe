@@ -1,13 +1,14 @@
 import axios from 'axios';
 import {Commit} from "vuex";
-import loginService from "@/service/login.service";
+import {User} from "@/interfaces/user.interface";
+import userService from "@/service/user.service";
 
-const state:{user:string|null} = {
+const state:{user:User|null} = {
     user: null
 };
 const getters = {
-    isAuthenticated:(state:{user:string|null}) => !!state.user,
-    StateUser: (state:{user:string|null}) => state.user,
+    isAuthenticated:(state:{user:User|null}) => !!state.user,
+    StateUser: (state:{user:User|null}) => state.user,
 };
 const actions = {
     // async Register({dispatch}, form) {
@@ -24,7 +25,8 @@ const actions = {
                 'Content-Type': 'application/json'
             },
         })
-        await commit('setUser', User.get('username'))
+        const user = await userService.getUserByEmail(User.get('username') as string);
+        await commit('setUser', user);
     },
     async LogOut({commit}: { commit: Commit }){
         const user = null
@@ -32,10 +34,10 @@ const actions = {
     }
 };
 const mutations = {
-    setUser(state:{user:string|null}, username:string){
-        state.user = username
+    setUser(state:{user:User|null}, user:User){
+        state.user = user
     },
-    LogOut(state:{user:string|null}){
+    LogOut(state:{user:User|null}){
         state.user = null
     },
 };

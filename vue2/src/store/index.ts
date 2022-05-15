@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import { Meal } from "@/interfaces/meal.interface";
 import mealService from "@/service/meal.service";
-import loginService from "@/service/login.service";
 import createPersistedState from "vuex-persistedstate";
 import auth from './modules/auth';
 
@@ -19,26 +18,12 @@ export default new Vuex.Store({
   },
   mutations: {
     async updateGetterAllMeals(state) {
-      state.allMeals = await mealService.getAllMeals();
+      state.allMeals = await mealService.getMealsNotLikedOrDisliked(this.state.auth.user.id);
     },
   },
   actions: {
     async actionUpdateGetterAllMeals(context){
       context.commit("updateGetterAllMeals");
-    },
-    async login({state}, {email, password}: {email:string,password:string}){
-      const response = await loginService.login(email,password);
-
-      if(response.status === 401){
-        return response.message;
-      }
-
-      if(response.token){
-        localStorage.setItem("token", response.token);
-      }
-    },
-    async logout(){
-      localStorage.removeItem("token");
     }
   },
   modules: {

@@ -51,9 +51,9 @@
       <div class="btn btn--decline" @click="reject">
         <v-icon color="black" large>mdi-close</v-icon>
       </div>
-      <div class="btn btn--skip" @click="skip">
-        <v-icon color="green" large>mdi-star</v-icon>
-      </div>
+<!--      <div class="btn btn&#45;&#45;skip" @click="skip">-->
+<!--        <v-icon color="green" large>SKIP</v-icon>-->
+<!--      </div>-->
       <div class="btn btn--like" @click="match">
         <v-icon color="white" dense>mdi-heart</v-icon>
       </div>
@@ -62,6 +62,8 @@
 </template>
 <script>
 import {Vue2InteractDraggable, InteractEventBus} from 'vue2-interact'
+import mealService from "@/service/meal.service";
+import store from "@/store";
 
 const EVENTS = {
   MATCH: 'match',
@@ -82,6 +84,9 @@ export default {
       },
     }
   },
+  async mounted() {
+    await this.$store.dispatch("actionUpdateGetterAllMeals");
+  },
   computed: {
     getMeals() {
       return this.$store.getters['allMeals'];
@@ -95,15 +100,23 @@ export default {
   },
   methods: {
     match() {
+      mealService.likeMeal(this.current.id,store.getters.StateUser.id);
       InteractEventBus.$emit(EVENTS.MATCH)
     },
     reject() {
+      mealService.dislikeMeal(this.current.id,store.getters.StateUser.id);
       InteractEventBus.$emit(EVENTS.REJECT)
     },
     skip() {
       InteractEventBus.$emit(EVENTS.SKIP)
     },
     emitAndNext(event) {
+      if(event === EVENTS.MATCH) {
+        mealService.likeMeal(this.current.id,store.getters.StateUser.id);
+      }
+      if(event === EVENTS.REJECT) {
+        mealService.dislikeMeal(this.current.id,store.getters.StateUser.id);
+      }
       this.$emit(event, this.index)
       setTimeout(() => this.isVisible = false, 200)
       setTimeout(() => {

@@ -9,3 +9,13 @@ api:
 authentication_token:
     path: /api/login
     methods: ['POST']
+
+meal_like:
+    path: /api/meals/like
+    methods: ['POST']
+    controller: App\Controller\MealController::likeAction
+
+meal_dislike:
+    path: /api/meals/dislike
+    methods: ['POST']
+    controller: App\Controller\MealController::dislikeAction

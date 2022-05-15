@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -20,6 +22,7 @@ use Symfony\Component\Serializer\Annotation\SerializedName;
  *     normalizationContext={"groups"={"user:read"}},
  *     denormalizationContext={"groups"={"user:write"}}
  * )
+ * @ApiFilter(SearchFilter::class,  properties={"email": "exact"})
  * 
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -159,12 +162,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $food;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Meal::class, mappedBy="userLike")
+     */
+    private $likedMeals;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Meal::class, mappedBy="userDislike")
+     */
+    private $dislikedMeals;
+
     public function __construct()
     {
         $this->progressions = new ArrayCollection();
         $this->foodPlan = new ArrayCollection();
         $this->meals = new ArrayCollection();
         $this->food = new ArrayCollection();
+        $this->likedMeals = new ArrayCollection();
+        $this->dislikedMeals = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -490,6 +505,60 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             if ($food->getUser() === $this) {
                 $food->setUser(null);
             }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Meal>
+     */
+    public function getLikedMeals(): Collection
+    {
+        return $this->likedMeals;
+    }
+
+    public function addLikedMeal(Meal $likedMeal): self
+    {
+        if (!$this->likedMeals->contains($likedMeal)) {
+            $this->likedMeals[] = $likedMeal;
+            $likedMeal->addUserLike($this);
+        }
+
+        return $this;
+    }
+
+    public function removeLikedMeal(Meal $likedMeal): self
+    {
+        if ($this->likedMeals->removeElement($likedMeal)) {
+            $likedMeal->removeUserLike($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Meal>
+     */
+    public function getDislikedMeals(): Collection
+    {
+        return $this->dislikedMeals;
+    }
+
+    public function addDislikedMeal(Meal $dislikedMeal): self
+    {
+        if (!$this->dislikedMeals->contains($dislikedMeal)) {
+            $this->dislikedMeals[] = $dislikedMeal;
+            $dislikedMeal->addUserDislike($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDislikedMeal(Meal $dislikedMeal): self
+    {
+        if ($this->dislikedMeals->removeElement($dislikedMeal)) {
+            $dislikedMeal->removeUserDislike($this);
         }
 
         return $this;

@@ -11,5 +11,13 @@ export default {
         })
         return users;
     },
+    async getUserByEmail(email: string): Promise<User|null> {
+        const rawUser = await userRepository.getUserByEmail(email);
+        if(rawUser['hydra:member'][0]) {
+            return userFactory.formatRawUserToUser(rawUser['hydra:member'][0]);
+        }
+
+        return null;
+    },
 
 }

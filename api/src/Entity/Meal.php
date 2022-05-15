@@ -2,12 +2,18 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use App\Filters\MealUserFilter;
 use App\Repository\MealRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\JoinColumn;
+use Doctrine\ORM\Mapping\JoinTable;
 use Symfony\Component\Serializer\Annotation\Groups;
+
 
 /**
  * @ORM\Entity(repositoryClass=MealRepository::class)
@@ -16,6 +22,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     normalizationContext={"groups"={"meal:read"}},
  *     denormalizationContext={"groups"={"meal:write"}}
  * )
+ * @ApiFilter(SearchFilter::class, properties={"userLike.id": "exact","userDislike.id": "exact"})
+ * @ApiFilter(MealUserFilter::class)
  */
 class Meal
 {
@@ -88,11 +96,33 @@ class Meal
      */
     private $foodPlans;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="likedMeals")
+     * @Groups({
+     *     "meal:read","meal:write"
+     * })
+     */
+    private $userLike;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=User::class, inversedBy="dislikedMeals")
+     * @JoinTable(name="dislike_meal")
+     *      joinColumns={@JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@JoinColumn(name="meal_id", referencedColumnName="id")}
+     * )
+     * @Groups({
+     *     "meal:read","meal:write"
+     * })
+     */
+    private $userDislike;
+
 
     public function __construct()
     {
         $this->foods = new ArrayCollection();
         $this->foodPlans = new ArrayCollection();
+        $this->userLike = new ArrayCollection();
+        $this->userDislike = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -223,6 +253,54 @@ class Meal
         if ($this->foodPlans->removeElement($foodPlan)) {
             $foodPlan->removeMeal($this);
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUserLike(): Collection
+    {
+        return $this->userLike;
+    }
+
+    public function addUserLike(User $userLike): self
+    {
+        if (!$this->userLike->contains($userLike)) {
+            $this->userLike[] = $userLike;
+        }
+
+        return $this;
+    }
+
+    public function removeUserLike(User $userLike): self
+    {
+        $this->userLike->removeElement($userLike);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, User>
+     */
+    public function getUserDislike(): Collection
+    {
+        return $this->userDislike;
+    }
+
+    public function addUserDislike(User $userDislike): self
+    {
+        if (!$this->userDislike->contains($userDislike)) {
+            $this->userDislike[] = $userDislike;
+        }
+
+        return $this;
+    }
+
+    public function removeUserDislike(User $userDislike): self
+    {
+        $this->userDislike->removeElement($userDislike);
 
         return $this;
     }
