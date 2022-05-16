@@ -45,6 +45,19 @@ class MealRepository extends ServiceEntityRepository
         }
     }
 
+    public function getMealsByNbMeal(int $nbMeal): array
+    {
+        return $this->createQueryBuilder('m')
+            ->andWhere('m.nbMeal = :nbMeal')
+            ->innerJoin('m.foods', 'f')
+            ->andWhere('f.')
+            ->setParameter('nbMeal', $nbMeal)
+            ->orderBy('m.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return Meal[] Returns an array of Meal objects
     //  */

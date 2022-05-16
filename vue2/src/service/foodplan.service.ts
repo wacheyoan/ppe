@@ -10,5 +10,15 @@ export default {
             foodPlans.push(foodPlanFactory.formatRawFoodPlanToFoodPlan(rawFoodPlan));
         })
         return foodPlans;
+    },
+    async updateFoodPlan(userId:number, nbMeal: number): Promise<FoodPlan | null> {
+        const response = await foodPlanRepository.updateFoodPlan(userId, nbMeal);
+
+        if(response["title"] === "An error occurred"){
+            console.error(response["detail"]);
+            return null;
+        }else{
+            return foodPlanFactory.formatRawFoodPlanToFoodPlan(response);
+        }
     }
 }

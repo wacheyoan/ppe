@@ -46,6 +46,10 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
             $user->setWeight(number_format(random_int(5000, 20000) / 100, 2));
             $user->setPhone('0123456789');
             $user->setPseudo($USER['pseudo']);
+            $user->setFirstName('test');
+            $user->setLastName('test');
+            $user->setBirthDate(new \DateTime('now'));
+            $user->setGender('M');
             $password = $this->hasher->hashPassword($user, '123456');
             $user->setPassword($password);
 
