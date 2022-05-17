@@ -27,4 +27,8 @@ export default {
         })
         return foodPlans;
     },
+    async getFoodPlanById(foodPlanId: number): Promise<FoodPlan> {
+        const rawFoodPlan = await foodPlanRepository.getFoodPlanById(foodPlanId);
+        return foodPlanFactory.formatRawFoodPlanToFoodPlan(rawFoodPlan);
+    },
 }

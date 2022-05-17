@@ -22,31 +22,47 @@ class FoodPlanController extends AbstractController
         EntityManagerInterface $em
         ): Response
     {
-        $data = json_decode($request->getContent(), true);
 
+        $data = json_decode($request->getContent(), true);
         if(!($user = $userRepository->find($id))) {
              return new JsonResponse(['error' => 'User not found'], 404);
         }
 
         $meals = $mealRepository->getMealsByNbMeal($user->getCalories());
 
-        $combinations = [];
+        $combinations = $this->perm($meals, $data['nbMeal'] + 1);
 
-        $this->generateCombinations($meals, $combinations, $data['nbMeal'] - 1, 0);
+        foreach ($combinations as &$combination) {
+            sort($combination);
+        }
+        unset($combination);
+
+        $combinations = array_filter($combinations, static function($combination){
+            return count(array_unique($combination)) === count($combination);
+        });
+
+        $combinations = array_values(array_map("unserialize", array_unique(array_map("serialize", $combinations))));
 
         if($combinations > 0)
         {
             foreach ($user->getFoodPlan() as $foodPlan) {
                 $em->remove($foodPlan);
+                $em->flush();
             }
         }
+
+
 
         foreach ($combinations as $combination) {
             $totalCalories = 0;
 
-            foreach ($combination as $meal) {
-                $totalCalories += $meal->getCalories();
+            foreach ($combination as &$meal) {
+                $meal = $mealRepository->find($meal);
+                if($meal) {
+                    $totalCalories += $meal->getCalories();
+                }
             }
+            unset($meal);
 
             if ($totalCalories <= $user->getCalories()) {
                 $foodPlan = new FoodPlan();
@@ -61,22 +77,32 @@ class FoodPlanController extends AbstractController
 
         $em->flush();
 
+
         return new JsonResponse(['success' => 'Food plan generated'], 200);
     }
 
-    private function generateCombinations(array $meals, array &$combinations, int $int, int $int1)
+    private function perm($arr, $n, $result = array())
     {
-        if ($int == 0) {
-            $combinations[] = $meals;
-            return;
+        if($n <= 0) return false;
+        $i = 0;
+
+        $new_result = array();
+        foreach($arr as $r) {
+            if(count($result) > 0) {
+                foreach($result as $res) {
+                    $new_element = array_merge($res, array($r));
+                    $new_result[] = $new_element;
+                }
+            } else {
+                $new_result[] = array($r);
+            }
         }
 
-        for ($i = $int1, $iMax = count($meals); $i < $iMax; $i++) {
-            $newMeals = $meals;
-            $newMeals[$i] = $meals[$i];
-            $this->generateCombinations($newMeals, $combinations, $int - 1, $i + 1);
-        }
+        if($n == 1) return $new_result;
+        return $this->perm($arr, $n - 1, $new_result);
     }
+
+
 
 
 }

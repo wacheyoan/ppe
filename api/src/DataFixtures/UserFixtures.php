@@ -48,7 +48,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
             $user->setPseudo($USER['pseudo']);
             $user->setFirstName('test');
             $user->setLastName('test');
-            $user->setBirthDate(new \DateTime('now'));
+            $user->setBirthDate(new \DateTime('1996-10-03'));
             $user->setGender('M');
             $password = $this->hasher->hashPassword($user, '123456');
             $user->setPassword($password);

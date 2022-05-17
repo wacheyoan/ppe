@@ -36,6 +36,12 @@ const routes: Array<RouteConfig> = [
     component: () => import('../views/Profil.vue'),
     meta: {requiresAuth: true}
   },
+  {
+    path: '/foodplan/:id',
+    name: 'Foodplan',
+    component: () => import('../views/FoodPlan.vue'),
+    meta: {requiresAuth: true}
+  }
 
 ]
 

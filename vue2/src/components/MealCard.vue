@@ -10,22 +10,22 @@
         height="250"
     >
       <v-carousel-item
-          v-for="(meal,i) in foodPlan.meals"
+          v-for="(food,i) in meal.foods"
           :key="i"
-          :src="require(`../../src/assets/images/${meal.photo ? meal.photo : 'logo.png'}`)"
+          :src="require(`../../src/assets/images/${food.photo ? food.photo : 'logo.png'}`)"
           contain
       ></v-carousel-item>
     </v-carousel>
 
     <v-card-subtitle class="pb-0">
-      {{ foodPlan.calories | formatNumberAfterDecimal}} Kcal
+      {{ meal.calories | formatNumberAfterDecimal}} Kcal
     </v-card-subtitle>
 
     <v-card-text class="text--primary">
       <div>
-      {{
-        foodPlan.meals.map(meal => meal.foods.map(food => food.wording).join(', ')).join('\n')
-      }}
+        {{
+          meal.foods.map(food => food.wording).join(', ')
+        }}
       </div>
     </v-card-text>
 
@@ -34,16 +34,15 @@
       <v-btn
           color="orange"
           text
-          :to="{ name: 'Foodplan', params: { id: foodPlan.id }}"
       >
-        Voir le plan alimentaire
+        Voir le repas
       </v-btn>
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
-  export default {
-    props:['foodPlan']
-  }
+export default {
+  props:['meal']
+}
 </script>

@@ -24,6 +24,12 @@
         Générer le plan alimentaire
       </v-btn>
     </v-row>
+    <v-progress-circular
+        :size="50"
+        color="primary"
+        indeterminate
+        v-if="loading"
+    ></v-progress-circular>
 
   </div>
 </template>
@@ -40,11 +46,14 @@ export default {
       opacity: 0.8,
       overlay: false,
       meals: [],
-      numberValue: 4
+      numberValue: 4,
+      loading: false,
     };
   },
   async mounted() {
+    this.loading = true;
     await this.$store.dispatch("actionUpdateFoodPlansOfUser");
+    this.loading = false;
   },
   computed: {
     getFoodPlans() {
@@ -54,16 +63,21 @@ export default {
   methods: {
     ...mapActions(["generateFoodPlan"]),
     async generate() {
+      this.loading = true;
       await this.generateFoodPlan({userId:store.getters.StateUser.id,nbMeal:this.numberValue});
       await this.$store.dispatch("actionUpdateFoodPlansOfUser");
+      this.loading = false;
     },
   },
 };
 </script>
 
-<style scoped>
-.cards{
-  margin: 16px 0;
+<style>
+div[role="progressbar"]
+{  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
 }
-
 </style>
+
