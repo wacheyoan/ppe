@@ -7,7 +7,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-CONST RECIPES = ['RECIPE1','RECIPE2'];
+CONST RECIPES = ['RECIPE1','RECIPE2','RECIPE3','RECIPE4','RECIPE5','RECIPE6','RECIPE7','RECIPE8','RECIPE9','RECIPE10'];
 
 class RecipeFixtures extends Fixture implements DependentFixtureInterface
 {

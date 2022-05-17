@@ -23,7 +23,8 @@ export default new Vuex.Store({
     auth: {
       isAuthenticated: false,
       user: null as any
-    }
+    },
+    foodPlansOfUser: [] as FoodPlan[]
   },
   getters: {
     allMeals(state): Meal[]{
@@ -34,6 +35,12 @@ export default new Vuex.Store({
     },
     getAllObjectives(state): Objective[]{
       return state.allObjectives;
+    },
+    getFoodPlan(state): FoodPlan{
+      return state.foodPlan;
+    },
+    getFoodPlansOfUser(state): FoodPlan[]{
+      return state.foodPlansOfUser;
     },
   },
   mutations: {
@@ -48,7 +55,10 @@ export default new Vuex.Store({
     },
     async updateFoodPlan(state, payload: any) {
       state.foodPlan =  await foodplanService.updateFoodPlan(payload.userId, payload.nbMeal);
-    }
+    },
+    async updateFoodPlansOfUser(state) {
+      state.foodPlansOfUser = await foodplanService.getFoodPlansOfUser(state.auth.user.id);
+    },
   },
   actions: {
     async actionUpdateGetterAllMeals(context){
@@ -62,7 +72,10 @@ export default new Vuex.Store({
     },
     async generateFoodPlan(context, payload){
       context.commit("updateFoodPlan", payload);
-    }
+    },
+    async actionUpdateFoodPlansOfUser(context){
+      context.commit("updateFoodPlansOfUser");
+    },
   },
   modules: {
     auth

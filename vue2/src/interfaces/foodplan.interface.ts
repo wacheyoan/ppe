@@ -7,7 +7,8 @@ export interface FoodPlan {
   wording: string;
   meals: Meal[];
   user: User;
-  period: Period;
+  period?: Period | null;
   createdAt: Date;
   updatedAt?: Date | null;
+  calories: number;
 }

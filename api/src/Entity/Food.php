@@ -361,4 +361,9 @@ class Food
 
         return $this;
     }
+
+    public function getCalories()
+    {
+        return $this->getCarbohydrate() * 4 + $this->getProtein() * 4 + $this->getFat() * 9;
+    }
 }

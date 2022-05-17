@@ -27,5 +27,14 @@ export default {
         catch (httpException) {
             throw new Error(`An error happened during the food_plans call`);
         }
-    }
+    },
+    async getFoodPlansOfUser(userId:number): Promise<any> {
+        try {
+            const httpCall = await fetch(`${API}/food_plans?userId=${userId}`)
+            return await httpCall.json();
+        }
+        catch (httpException) {
+            throw new Error(`An error happened during the food_plans call`);
+        }
+    },
 }

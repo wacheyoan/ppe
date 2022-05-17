@@ -7,7 +7,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-CONST MEALS = ['MEAL1','MEAL2'];
+CONST MEALS = ['MEAL1','MEAL2','MEAL3','MEAL4','MEAL5','MEAL6','MEAL7','MEAL8','MEAL9','MEAL10'];
 
 class MealFixtures extends Fixture implements DependentFixtureInterface
 {

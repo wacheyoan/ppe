@@ -7,6 +7,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
+use function Doctrine\ORM\QueryBuilder;
 
 /**
  * @method Meal|null find($id, $lockMode = null, $lockVersion = null)
@@ -45,14 +46,16 @@ class MealRepository extends ServiceEntityRepository
         }
     }
 
-    public function getMealsByNbMeal(int $nbMeal): array
+    public function getMealsByNbMeal($nbCalories): array
     {
-        return $this->createQueryBuilder('m')
-            ->andWhere('m.nbMeal = :nbMeal')
+        $qb = $this->createQueryBuilder('m');
+        return $qb
             ->innerJoin('m.foods', 'f')
-            ->andWhere('f.')
-            ->setParameter('nbMeal', $nbMeal)
-            ->orderBy('m.id', 'ASC')
+            ->leftJoin('m.userDislike', 'ud')
+            ->andWhere('ud.id IS NULL')
+            ->groupBy('m.id')
+            ->having('(SUM(f.carbohydrate) * 4 + SUM(f.protein) * 4 + SUM(f.fat) * 9) < :nbCalories')
+            ->setParameter('nbCalories', $nbCalories)
             ->getQuery()
             ->getResult()
         ;

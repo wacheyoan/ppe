@@ -1,11 +1,9 @@
 <template>
   <div class="cook">
-    <div class="cards" v-for="meal in meals" :key="meal.id">
-      <Card :meal="meal" />
+    <div class="cards" v-for="foodPlan in getFoodPlans" :key="foodPlan.id">
+      <Card :foodPlan="foodPlan" />
     </div>
-    <v-btn color="orange lighten-2" class="mt-12" @click="overlay = !overlay">
-      Générer le plan alimentaire
-    </v-btn>
+
     <v-overlay :absolute="absolute" :opacity="opacity" :value="overlay">
       <v-text-field
         v-model="numberValue"
@@ -19,29 +17,53 @@
         Confirmer
       </v-btn>
     </v-overlay>
+    <v-row
+        justify="center"
+>
+      <v-btn color="orange lighten-2" class="mt-12"  @click="overlay = !overlay">
+        Générer le plan alimentaire
+      </v-btn>
+    </v-row>
+
   </div>
 </template>
 
 <script>
 import Card from "@/components/Card";
-import { mapActions } from 'vuex';
+import {mapActions, mapState} from 'vuex';
 import store from '@/store';
 export default {
   components: { Card },
   data() {
     return {
-      absolute: true,
+      absolute: false,
       opacity: 0.8,
       overlay: false,
       meals: [],
-      numberValue: 4,
+      numberValue: 4
     };
+  },
+  async mounted() {
+    await this.$store.dispatch("actionUpdateFoodPlansOfUser");
+  },
+  computed: {
+    getFoodPlans() {
+      return this.$store.getters['getFoodPlansOfUser'];
+    }
   },
   methods: {
     ...mapActions(["generateFoodPlan"]),
-    generate() {
-      this.generateFoodPlan({userId:store.getters.StateUser.id,nbMeal:this.numberValue});
+    async generate() {
+      await this.generateFoodPlan({userId:store.getters.StateUser.id,nbMeal:this.numberValue});
+      await this.$store.dispatch("actionUpdateFoodPlansOfUser");
     },
   },
 };
 </script>
+
+<style scoped>
+.cards{
+  margin: 16px 0;
+}
+
+</style>
