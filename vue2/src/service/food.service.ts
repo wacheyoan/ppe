@@ -1,6 +1,7 @@
 import foodRepository from "@/repository/food.repository";
 import {Food} from "@/interfaces/food.interface";
 import foodFactory from "@/factory/food.factory";
+import { FoodPlan } from "@/interfaces/foodplan.interface";
 
 export default {
     async getAllFoods(): Promise<Food[]> {

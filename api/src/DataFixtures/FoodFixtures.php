@@ -67,6 +67,116 @@ CONST FOODS = [
         'FAT' => 19,
         'SATURATED' => 8,
         'VEGAN' => true
+    ],
+    [
+        'NAME' => 'CHICKEN',
+        'CATEGORY' => 'MEATS',
+        'CARBS' => 0,
+        'SUGAR' => 0,
+        'PROTEIN' => 20,
+        'FAT' => 15,
+        'SATURATED' => 5,
+        'VEGAN' => false
+    ],
+    [
+        'NAME' => 'PORK',
+        'CATEGORY' => 'MEATS',
+        'CARBS' => 0,
+        'SUGAR' => 0,
+        'PROTEIN' => 20,
+        'FAT' => 15,
+        'SATURATED' => 5,
+        'VEGAN' => false
+    ],
+    [
+        'NAME' => 'FISH',
+        'CATEGORY' => 'MEATS',
+        'CARBS' => 0,
+        'SUGAR' => 0,
+        'PROTEIN' => 20,
+        'FAT' => 15,
+        'SATURATED' => 5,
+        'VEGAN' => false
+    ],
+    [
+        'NAME' => 'EGG',
+        'CATEGORY' => 'OTHER',
+        'CARBS' => 0,
+        'SUGAR' => 0,
+        'PROTEIN' => 5,
+        'FAT' => 0,
+        'SATURATED' => 0,
+        'VEGAN' => false
+    ],
+    [
+        'NAME' => 'YOGHURT',
+        'CATEGORY' => 'OTHER',
+        'CARBS' => 0,
+        'SUGAR' => 0,
+        'PROTEIN' => 5,
+        'FAT' => 0,
+        'SATURATED' => 0,
+        'VEGAN' => false
+    ],
+    [
+        'NAME' => 'CHEESE',
+        'CATEGORY' => 'OTHER',
+        'CARBS' => 0,
+        'SUGAR' => 0,
+        'PROTEIN' => 5,
+        'FAT' => 0,
+        'SATURATED' => 0,
+        'VEGAN' => false
+    ],
+    [
+        'NAME' => 'COOKIE',
+        'CATEGORY' => 'OTHER',
+        'CARBS' => 0,
+        'SUGAR' => 0,
+        'PROTEIN' => 5,
+        'FAT' => 0,
+        'SATURATED' => 0,
+        'VEGAN' => false
+    ],
+    [
+        'NAME' => 'CHOCOLATE',
+        'CATEGORY' => 'OTHER',
+        'CARBS' => 0,
+        'SUGAR' => 0,
+        'PROTEIN' => 5,
+        'FAT' => 0,
+        'SATURATED' => 0,
+        'VEGAN' => false
+    ],
+    [
+        'NAME' => 'COFFEE',
+        'CATEGORY' => 'OTHER',
+        'CARBS' => 0,
+        'SUGAR' => 0,
+        'PROTEIN' => 5,
+        'FAT' => 0,
+        'SATURATED' => 0,
+        'VEGAN' => false
+    ],
+    [
+        'NAME' => 'TEA',
+        'CATEGORY' => 'OTHER',
+        'CARBS' => 0,
+        'SUGAR' => 0,
+        'PROTEIN' => 5,
+        'FAT' => 0,
+        'SATURATED' => 0,
+        'VEGAN' => false
+    ],
+    [
+        'NAME' => 'WATER',
+        'CATEGORY' => 'OTHER',
+        'CARBS' => 0,
+        'SUGAR' => 0,
+        'PROTEIN' => 5,
+        'FAT' => 0,
+        'SATURATED' => 0,
+        'VEGAN' => false
     ]
 ];
 
@@ -87,7 +197,7 @@ class FoodFixtures extends Fixture implements DependentFixtureInterface
             $food->setSugar($FOOD['SUGAR']);
             $manager->persist($food);
 
-            $food->addCategory($this->getReference(CATEGORIES[$key]));
+            $food->addCategory($this->getReference(CATEGORIES[array_search($FOOD['CATEGORY'], CATEGORIES)]));
             $this->addReference($food->getWording(),$food);
         }
 

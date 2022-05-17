@@ -8,4 +8,5 @@ export interface Meal {
   foods: Food[];
   recipe: Recipe | null;
   photo: string | null;
+  calories: number;
 }

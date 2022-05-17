@@ -17,9 +17,10 @@ export default {
             wording: rawFoodPlan.wording,
             meals: meals,
             user: userFactory.formatRawUserToUser(rawFoodPlan.user),
-            period: periodFactory.formatRawPeriodToPeriod(rawFoodPlan.period),
+            period: rawFoodPlan.period ? periodFactory.formatRawPeriodToPeriod(rawFoodPlan.period) : null,
             createdAt: new Date(rawFoodPlan.createdAt),
-            updatedAt: new Date(rawFoodPlan.updatedAt)
+            updatedAt: new Date(rawFoodPlan.updatedAt),
+            calories: meals.reduce((acc, meal) => acc + meal.calories, 0),
         }
     }
 }

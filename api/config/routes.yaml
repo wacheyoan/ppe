@@ -24,3 +24,9 @@ register:
     path: /api/register
     methods: ['POST']
     controller: App\Controller\UserController::registerAction
+
+generate_foodplan:
+    path: /api/foodplan/generate/{id}
+    methods: ['POST']
+    controller: App\Controller\FoodPlanController::generateAction
+

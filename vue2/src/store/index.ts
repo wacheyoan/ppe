@@ -8,6 +8,9 @@ import {Activity} from "@/interfaces/activity.interface";
 import activityService from "@/service/activity.service";
 import {Objective} from "@/interfaces/objective.interface";
 import objectiveService from "@/service/objective.service";
+import foodService from '@/service/food.service';
+import foodplanService from '@/service/foodplan.service';
+import { FoodPlan } from '@/interfaces/foodplan.interface';
 
 Vue.use(Vuex)
 
@@ -16,10 +19,12 @@ export default new Vuex.Store({
     allMeals: [] as Meal[],
     allActivities: [] as Activity[],
     allObjectives: [] as Objective[],
+    foodPlan: null as any ,
     auth: {
       isAuthenticated: false,
       user: null as any
-    }
+    },
+    foodPlansOfUser: [] as FoodPlan[]
   },
   getters: {
     allMeals(state): Meal[]{
@@ -30,6 +35,12 @@ export default new Vuex.Store({
     },
     getAllObjectives(state): Objective[]{
       return state.allObjectives;
+    },
+    getFoodPlan(state): FoodPlan{
+      return state.foodPlan;
+    },
+    getFoodPlansOfUser(state): FoodPlan[]{
+      return state.foodPlansOfUser;
     },
   },
   mutations: {
@@ -42,6 +53,12 @@ export default new Vuex.Store({
     async updateGetterAllObjectives(state) {
       state.allObjectives = await objectiveService.getAllObjective();
     },
+    async updateFoodPlan(state, payload: any) {
+      state.foodPlan =  await foodplanService.updateFoodPlan(payload.userId, payload.nbMeal);
+    },
+    async updateFoodPlansOfUser(state) {
+      state.foodPlansOfUser = await foodplanService.getFoodPlansOfUser(state.auth.user.id);
+    },
   },
   actions: {
     async actionUpdateGetterAllMeals(context){
@@ -52,6 +69,12 @@ export default new Vuex.Store({
     },
     async actionUpdateGetterAllObjectives(context){
       context.commit("updateGetterAllObjectives");
+    },
+    async generateFoodPlan(context, payload){
+      context.commit("updateFoodPlan", payload);
+    },
+    async actionUpdateFoodPlansOfUser(context){
+      context.commit("updateFoodPlansOfUser");
     },
   },
   modules: {

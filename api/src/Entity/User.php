@@ -652,4 +652,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
 
+    public function getAge()
+    {
+        $today = date("Y-m-d");
+        $diff = date_diff(date_create($this->getBirthDate()->format('Y-m-d')), date_create($today));
+        return $diff->format('%y');
+    }
+
+
+    public function getBMR()
+    {
+        $coeff = $this->getGender() === "M" ? 5 : -161;
+        $total = 10 * $this->getWeight() + 6.25 * $this->getHeight() + 5 * $this->getAge();
+
+        return $total + $coeff;
+    }
+
+    public function getEntretien()
+    {
+        return $this->getBMR() * $this->getActivity()->getCoefficient();
+    }
+
+    public function getCalories()
+    {
+        return $this->getEntretien();
+    }
+
 }

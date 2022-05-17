@@ -10,5 +10,21 @@ export default {
             foodPlans.push(foodPlanFactory.formatRawFoodPlanToFoodPlan(rawFoodPlan));
         })
         return foodPlans;
-    }
+    },
+    async updateFoodPlan(userId:number, nbMeal: number) {
+        const response = await foodPlanRepository.updateFoodPlan(userId, nbMeal);
+
+        if(response["title"] === "An error occurred"){
+            console.error(response["detail"]);
+            return null;
+        }
+    },
+    async getFoodPlansOfUser(userId: number): Promise<FoodPlan[]> {
+        const rawFoodPlans = await foodPlanRepository.getFoodPlansOfUser(userId);
+        const foodPlans: FoodPlan[] = [];
+        rawFoodPlans['hydra:member'].forEach((rawFoodPlan: any) => {
+            foodPlans.push(foodPlanFactory.formatRawFoodPlanToFoodPlan(rawFoodPlan));
+        })
+        return foodPlans;
+    },
 }

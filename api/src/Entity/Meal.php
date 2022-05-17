@@ -305,5 +305,14 @@ class Meal
         return $this;
     }
 
+    public function getCalories()
+    {
+        $calories = 0;
+        foreach ($this->foods as $food) {
+            $calories += $food->getCalories();
+        }
+        return $calories;
+    }
+
 
 }

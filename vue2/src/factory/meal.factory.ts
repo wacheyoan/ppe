@@ -11,13 +11,15 @@ export default {
             foods.push(foodFactory.formatRawFoodToFood(rawFood))
         })
 
+
         return {
             id: rawMeal.id,
             wording: rawMeal.wording,
             createdAt: new Date(rawMeal.createdAt),
             foods: foods,
             recipe: rawMeal.recipe ? recipeFactory.formatRawRecipeToRecipe(rawMeal.recipe) : null,
-            photo: rawMeal.photo ?? null
+            photo: rawMeal.photo ?? null,
+            calories: foods.reduce((acc, food) => acc + food.calories, 0),
         }
     }
 }

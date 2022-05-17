@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Filters\FoodPlanFilter;
 use App\Repository\FoodPlanRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -17,6 +19,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  *     normalizationContext={"groups"={"foodplan:read"}},
  *     denormalizationContext={"groups"={"foodplan:write"}}
  * )
+ * @ApiFilter(FoodPlanFilter::class)
  */
 class FoodPlan
 {

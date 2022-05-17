@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-container fill-height>
+    <v-container>
     <v-bottom-navigation
         v-model="value"
         dark
@@ -52,7 +52,8 @@ export default Vue.extend({
 
 <style lang="scss">
 .v-bottom-navigation{
-  position: absolute !important;
+  position: fixed !important;
+  z-index: 999;
   &>a,&>button{
     height: 100% !important;
   }
@@ -60,5 +61,10 @@ export default Vue.extend({
  form{
    width: 100%;
 
+ }
+ .container{
+   >*:not(:first-child){
+     margin-bottom: 72px;
+   }
  }
 </style>
