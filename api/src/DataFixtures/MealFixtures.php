@@ -19,7 +19,7 @@ class MealFixtures extends Fixture implements DependentFixtureInterface
             $meal->setWording($MEAL);
 
             foreach (FOODS as $FOOD){
-                if(random_int(0,1) === 1){
+                if(random_int(0,2) === 1){
                     $meal->addFood($this->getReference($FOOD['NAME']));
                 }
             }

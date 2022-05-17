@@ -195,6 +195,7 @@ class FoodFixtures extends Fixture implements DependentFixtureInterface
             $food->setSaturatedFat($FOOD['SATURATED']);
             $food->setVegan($FOOD['VEGAN']);
             $food->setSugar($FOOD['SUGAR']);
+            $food->setPhoto(mb_strtolower($FOOD['NAME']) . '.png');
             $manager->persist($food);
 
             $food->addCategory($this->getReference(CATEGORIES[array_search($FOOD['CATEGORY'], CATEGORIES)]));

@@ -23,6 +23,7 @@ export default {
             vegan: rawFood.vegan,
             category: categories,
             calories: (rawFood.carbohydrate * 4 + rawFood.fat * 9 + rawFood.protein * 4),
+            photo: rawFood.photo ? rawFood.photo : null,
         }
     }
 }

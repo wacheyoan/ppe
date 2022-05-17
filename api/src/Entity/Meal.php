@@ -314,5 +314,10 @@ class Meal
         return $calories;
     }
 
+    public function __toString()
+    {
+        return (string) $this->id;
+    }
+
 
 }

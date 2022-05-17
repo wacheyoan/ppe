@@ -19,13 +19,18 @@ class FoodPlanFilter extends AbstractFilter
 
     protected function filterProperty(string $property, $value, QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, string $operationName = null)
     {
-        if($property !== 'userId') {
-            return;
+        $rootAlias = $queryBuilder->getRootAliases()[0];
+
+        if($property === 'userId') {
+            $queryBuilder->andWhere(sprintf('%s.user = :value', $rootAlias));
+            $queryBuilder->setParameter('value', $value);
         }
 
-        $rootAlias = $queryBuilder->getRootAliases()[0];
-        $queryBuilder->andWhere(sprintf('%s.user = :value', $rootAlias));
-        $queryBuilder->setParameter('value', $value);
+        if($property === 'id') {
+            $queryBuilder->andWhere(sprintf('%s.id = :value', $rootAlias));
+            $queryBuilder->setParameter('value', $value);
+        }
+
 
     }
 
@@ -36,7 +41,12 @@ class FoodPlanFilter extends AbstractFilter
                 'property' => null,
                 'type' => Type::BUILTIN_TYPE_INT,
                 'required' => false
-            ]
+            ],
+            'id' => [
+                'property' => null,
+                'type' => Type::BUILTIN_TYPE_INT,
+                'required' => false
+            ],
         ];
     }
 }

@@ -11,6 +11,9 @@ Vue.config.productionTip = false
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = API;
 
+Vue.filter('formatNumberAfterDecimal', function (value:number) {
+    return parseFloat(value.toFixed(2));
+});
 
 
 axios.interceptors.response.use(undefined, function (error) {

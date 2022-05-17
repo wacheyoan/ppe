@@ -24,6 +24,7 @@
       </v-btn>
 
     </v-bottom-navigation>
+
     <router-view></router-view>
     </v-container>
   </v-app>
@@ -67,4 +68,8 @@ export default Vue.extend({
      margin-bottom: 72px;
    }
  }
+
+.cards{
+  margin: 16px 0;
+}
 </style>

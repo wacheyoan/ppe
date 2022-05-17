@@ -168,9 +168,9 @@ export default {
 
 .footer {
   width: 77vw;
-  bottom: 0;
+  bottom: -24px;
   left: 50%;
-  transform: translate(-50%,-90%);
+  transform: translateX(-50%);
   display: flex;
   padding-bottom: 30px;
   justify-content: space-around;

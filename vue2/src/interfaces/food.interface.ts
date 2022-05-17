@@ -13,4 +13,5 @@ export interface Food {
   vegan: boolean;
   category: Category[];
   calories: number;
+  photo?: string;
 }
