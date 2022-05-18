@@ -52,6 +52,9 @@ export default Vue.extend({
 </script>
 
 <style lang="scss">
+.container{
+  padding: 32px !important;
+}
 .v-bottom-navigation{
   position: fixed !important;
   z-index: 999;
@@ -72,4 +75,11 @@ export default Vue.extend({
 .cards{
   margin: 16px 0;
 }
+  .center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
 </style>
+

@@ -133,7 +133,6 @@ export default {
 
 <style lang="scss" scoped>
 .container {
-  background: #eceff1;
   width: 100%;
 }
 

@@ -1,5 +1,16 @@
 <template>
-  <v-form
+<div>
+  <v-btn
+          to="/login"
+>
+  <v-icon
+        color="white"
+>
+    mdi-arrow-left-top
+    </v-icon>
+  </v-btn>
+
+    <v-form
       ref="form"
       lazy-validation
       v-model="valid"
@@ -45,7 +56,7 @@
           <v-spacer></v-spacer>
           <v-btn
               text
-              color="primary"
+              color="indigo darken-3"
               @click="modal = false"
           >
             Annuler
@@ -133,7 +144,7 @@
     ></v-text-field>
       <v-btn
           :disabled="!valid"
-          color="success"
+          color="indigo darken-3"
           class="mr-4"
           @click="validate"
       >
@@ -142,6 +153,8 @@
     <router-link to="/login">Déjà un compte ?</router-link>
 
   </v-form>
+
+</div>
 </template>
 
 <script>

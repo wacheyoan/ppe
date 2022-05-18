@@ -1,4 +1,5 @@
 <template>
+<div class="center">
   <v-form
       ref="form"
       v-model="valid"
@@ -24,7 +25,7 @@
 
     <v-btn
         :disabled="!valid"
-        color="success"
+        color="indigo darken-3"
         class="mr-4"
         @click="validate"
     >
@@ -32,6 +33,7 @@
     </v-btn>
     <router-link to="/register">Pas encore inscrit ?</router-link>
   </v-form>
+  </div>
 </template>
 
 <script>
@@ -77,4 +79,3 @@ export default {
   },
 }
 </script>
-
