@@ -1,9 +1,9 @@
 import {Category} from "@/interfaces/category.interface";
 
 export interface Food {
-  id: number;
+  id: number | null;
   wording: string;
-  createdAt: Date;
+  createdAt?: Date;
   updatedAt?: Date;
   carbohydrate: number;
   fat: number;

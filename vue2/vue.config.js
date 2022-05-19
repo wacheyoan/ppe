@@ -3,6 +3,6 @@ module.exports = {
     'vuetify'
   ],
   devServer: {
-    proxy: 'https://ppe.api',
+    proxy: 'https://ppe.api'
   }
 }

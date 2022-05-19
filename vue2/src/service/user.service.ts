@@ -24,7 +24,7 @@ export default {
         return 10 * user.weight + 6.25 * user.height + 5 * this.getAge(user) + coeff;
     },
     getEntretien(user:User): number{
-        return this.getBMR(user) * user.activity.coefficient;
+        return this.getBMR(user) * (user.activity ? user.activity.coefficient : 1);
     },
     getObjectiveCalorie(user:User): number
     {
