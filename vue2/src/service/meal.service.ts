@@ -11,6 +11,10 @@ export default {
         })
         return meals;
     },
+    async getMealById(mealId: number): Promise<Meal>{
+        const rawMeal = await mealRepository.getMealById(mealId);
+        return mealFactory.formatRawMealToMeal(rawMeal['hydra:member'][0]);
+    },
     async getMealsNotLikedOrDisliked(user: number): Promise<Meal[]> {
         const rawMeals = await mealRepository.getMealsNotLikedOrDisliked(user);
         const meals: Meal[] = [];

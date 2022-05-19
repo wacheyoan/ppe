@@ -18,8 +18,13 @@ export default {
             createdAt: new Date(rawMeal.createdAt),
             foods: foods,
             recipe: rawMeal.recipe ? recipeFactory.formatRawRecipeToRecipe(rawMeal.recipe) : null,
-            photo: rawMeal.photo ?? null,
+            photo: rawMeal.photo ? rawMeal.photo.replace(' ','') : null,
             calories: foods.reduce((acc, food) => acc + food.calories, 0),
+            proteins: foods.reduce((acc, food) => acc + food.protein, 0),
+            carbohydrates: foods.reduce((acc, food) => acc + food.carbohydrate, 0),
+            fats: foods.reduce((acc, food) => acc + food.fat, 0),
+            saturatedFat: foods.reduce((acc, food) => acc + food.saturatedFat, 0),
+            sugar: foods.reduce((acc, food) => acc + food.sugar, 0),
         }
     }
 }

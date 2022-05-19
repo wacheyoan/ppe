@@ -8,9 +8,14 @@
         shift
         v-if="isLoggedIn"
     >
-      <v-btn to="/cook" >
-        <span>Cuisine</span>
-        <v-icon>mdi-chef-hat</v-icon>
+      <v-btn to="/foodplan" >
+        <span>Plan</span>
+        <v-icon>mdi-clipboard-text-multiple-outline </v-icon>
+      </v-btn>
+
+      <v-btn to="/aliments" >
+        <span>Aliments</span>
+        <v-icon>mdi-food-fork-drink </v-icon>
       </v-btn>
 
       <v-btn to="/" >
@@ -18,14 +23,21 @@
         <v-icon>mdi-heart</v-icon>
       </v-btn>
 
+      <v-btn to="/cooking" >
+        <span>Cuisine</span>
+        <v-icon>mdi-chef-hat </v-icon>
+      </v-btn>
+
       <v-btn to="/profil" >
         <span>Profil</span>
         <v-icon large>mdi-account</v-icon>
       </v-btn>
-
     </v-bottom-navigation>
+      <v-slide-y-transition>
 
-    <router-view></router-view>
+      <router-view></router-view>
+      </v-slide-y-transition>
+
     </v-container>
   </v-app>
 </template>

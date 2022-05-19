@@ -5,6 +5,7 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\ActivityRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ApiResource()
@@ -17,16 +18,25 @@ class Activity
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({
+     *     "user:read","user:write"
+     * })
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Groups({
+     *     "user:read","user:write"
+     * })
      */
     private $wording;
 
     /**
      * @ORM\Column(type="float")
+     * @Groups({
+     *     "user:read","user:write"
+     * })
      */
     private $coefficient;
 

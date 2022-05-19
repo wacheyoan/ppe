@@ -12,6 +12,15 @@ export default {
         }
 
     },
+    async getMealById(mealId:number): Promise<any>{
+        try {
+            const httpCall = await fetch(`${API}/meals?id=${mealId}`)
+            return await httpCall.json();
+        }
+        catch (httpException) {
+            throw new Error(`An error happened during the food_plans call`);
+        }
+    },
     async getMealsNotLikedOrDisliked(user:number): Promise<any> {
         try {
             const httpCall = await fetch(`${API}/meals?disorliked=${user}`)

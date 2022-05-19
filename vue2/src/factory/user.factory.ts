@@ -1,4 +1,6 @@
 import { User } from "@/interfaces/user.interface";
+import ActivityFactory from "@/factory/activity.factory";
+import ObjectiveFactory from "@/factory/objective.factory";
 
 export default {
     formatRawUserToUser(rawUser: Readonly<any>): User {
@@ -10,7 +12,13 @@ export default {
             weight: rawUser.weight,
             phone: rawUser.phone,
             roles: rawUser.roles,
-            createdAt: new Date(rawUser.createdAt)
+            firstName: rawUser.firstName,
+            lastName: rawUser.lastName,
+            birthDate: new Date(rawUser.birthDate),
+            gender: rawUser.gender,
+            createdAt: new Date(rawUser.createdAt),
+            activity: ActivityFactory.formatRawActivityToActivity(rawUser.activity),
+            objective: ObjectiveFactory.formatRawObjectiveToObjective(rawUser.objective)
         }
     }
 }

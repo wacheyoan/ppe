@@ -1,3 +1,6 @@
+import {Activity} from "@/interfaces/activity.interface";
+import {Objective} from "@/interfaces/objective.interface";
+
 export interface User {
   id: number;
   email: string;
@@ -6,5 +9,11 @@ export interface User {
   weight: number;
   phone: string;
   roles: [];
-  createdAt: Date
+  createdAt: Date;
+  firstName: string;
+  lastName: string;
+  birthDate: Date;
+  gender:string;
+  activity: Activity;
+  objective: Objective;
 }

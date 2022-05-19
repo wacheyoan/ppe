@@ -19,9 +19,9 @@ class MealUserFilter extends AbstractContextAwareFilter
 
     protected function filterProperty(string $property, $value, QueryBuilder $queryBuilder, QueryNameGeneratorInterface $queryNameGenerator, string $resourceClass, string $operationName = null)
     {
-        if ($property === 'disorliked') {
+        $alias = $queryBuilder->getRootAliases()[0];
 
-            $alias = $queryBuilder->getRootAliases()[0];
+        if ($property === 'disorliked') {
             $queryBuilder
                 ->andWhere($alias.'.id NOT IN
                     ('.
@@ -47,10 +47,14 @@ class MealUserFilter extends AbstractContextAwareFilter
 
                 )
                 ->setParameter('user', $value);
-
-
         }
 
+        if($property === "id")
+        {
+            $queryBuilder
+                ->andWhere($alias.'.id = :id')
+                ->setParameter('id', $value);
+        }
 
 
     }
@@ -59,6 +63,11 @@ class MealUserFilter extends AbstractContextAwareFilter
     {
         return [
             'disorliked' => [
+                'property' => null,
+                'type' => Type::BUILTIN_TYPE_INT,
+                'required' => false
+            ],
+            'id' => [
                 'property' => null,
                 'type' => Type::BUILTIN_TYPE_INT,
                 'required' => false

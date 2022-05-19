@@ -9,4 +9,9 @@ export interface Meal {
   recipe: Recipe | null;
   photo: string | null;
   calories: number;
+  carbohydrates: number;
+  proteins: number;
+  fats: number;
+  sugar: number;
+  saturatedFat: number;
 }
