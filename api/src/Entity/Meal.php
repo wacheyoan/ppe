@@ -116,6 +116,15 @@ class Meal
      */
     private $userDislike;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({
+     *     "meal:read","meal:write",
+     *     "foodplan:read"
+     * })
+     */
+    private $photo;
+
 
     public function __construct()
     {
@@ -317,6 +326,18 @@ class Meal
     public function __toString()
     {
         return (string) $this->id;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(?string $photo): self
+    {
+        $this->photo = $photo;
+
+        return $this;
     }
 
 

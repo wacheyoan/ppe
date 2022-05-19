@@ -8,17 +8,17 @@
         shift
         v-if="isLoggedIn"
     >
-      <v-btn to="/cook" color="orange accent-3">
+      <v-btn to="/cook" >
         <span>Cuisine</span>
         <v-icon>mdi-chef-hat</v-icon>
       </v-btn>
 
-      <v-btn to="/" color="red accent-3">
+      <v-btn to="/" >
         <span>Swiper</span>
         <v-icon>mdi-heart</v-icon>
       </v-btn>
 
-      <v-btn to="/profil" color="blue accent-3">
+      <v-btn to="/profil" >
         <span>Profil</span>
         <v-icon large>mdi-account</v-icon>
       </v-btn>
@@ -54,6 +54,8 @@ export default Vue.extend({
 <style lang="scss">
 .container{
   padding: 32px !important;
+  min-height: 100vh;
+  position: relative;
 }
 .v-bottom-navigation{
   position: fixed !important;
@@ -79,7 +81,20 @@ export default Vue.extend({
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    height: 100%
   }
+div[role="progressbar"]
+{  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+}
+
+.absolute{
+  position: absolute !important;
+  left: 0;
+  top: 0;
+  transform: translate(50%, 50%);
+}
 </style>
 
