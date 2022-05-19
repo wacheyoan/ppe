@@ -58,6 +58,13 @@
         <v-icon color="white" dense>mdi-heart</v-icon>
       </div>
     </div>
+
+    <v-progress-circular
+        :size="50"
+        color="primary"
+        indeterminate
+        v-if="loading"
+    ></v-progress-circular>
     <div v-if="!current">
       Plus d'aliments à filtrer !
     </div>
@@ -85,10 +92,13 @@ export default {
         draggedLeft: EVENTS.REJECT,
         draggedUp: EVENTS.SKIP
       },
+      loading: false
     }
   },
   async mounted() {
+    this.loading = true;
     await this.$store.dispatch("actionUpdateGetterAllMeals");
+    this.loading = false;
   },
   computed: {
     getMeals() {
@@ -133,7 +143,6 @@ export default {
 
 <style lang="scss" scoped>
 .container {
-  background: #eceff1;
   width: 100%;
 }
 

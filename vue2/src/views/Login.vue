@@ -1,4 +1,6 @@
 <template>
+
+<div class="center">
   <v-form
       ref="form"
       v-model="valid"
@@ -24,7 +26,7 @@
 
     <v-btn
         :disabled="!valid"
-        color="success"
+        color="indigo darken-3"
         class="mr-4"
         @click="validate"
     >
@@ -32,6 +34,13 @@
     </v-btn>
     <router-link to="/register">Pas encore inscrit ?</router-link>
   </v-form>
+  <v-progress-circular
+      :size="50"
+      color="primary"
+      indeterminate
+      v-if="loading"
+  ></v-progress-circular>
+  </div>
 </template>
 
 <script>
@@ -54,6 +63,7 @@ export default {
         v => !!v || 'E-mail est obligatoire',
         v => /.+@.+\..+/.test(v) || 'E-mail   doit être valide',
       ],
+      loading:false
     }
   },
   methods: {
@@ -64,6 +74,7 @@ export default {
         User.append("username", this.email);
         User.append("password", this.password);
         try {
+          this.loading = true;
           await this.LogIn(User).then(res => {
             this.$router.push("/");
           }).catch(err => {
@@ -71,10 +82,12 @@ export default {
           });
         } catch (error) {
           this.error = error
+        }finally
+        {
+          this.loading = false;
         }
       }
     },
   },
 }
 </script>
-

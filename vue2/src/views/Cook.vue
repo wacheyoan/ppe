@@ -63,6 +63,7 @@ export default {
   methods: {
     ...mapActions(["generateFoodPlan"]),
     async generate() {
+      this.overlay = false;
       this.loading = true;
       await this.generateFoodPlan({userId:store.getters.StateUser.id,nbMeal:this.numberValue});
       await this.$store.dispatch("actionUpdateFoodPlansOfUser");
@@ -72,12 +73,4 @@ export default {
 };
 </script>
 
-<style>
-div[role="progressbar"]
-{  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%,-50%);
-}
-</style>
 

@@ -1,5 +1,14 @@
 <template>
   <div class="cook"  v-if="foodPlan">
+    <v-btn
+        to="/cook"
+    >
+      <v-icon
+          color="white"
+      >
+        mdi-arrow-left-top
+      </v-icon>
+    </v-btn>
     <div class="cards" v-for="meal in foodPlan.meals" :key="meal.id">
       <MealCard :meal="meal" />
     </div>

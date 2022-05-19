@@ -17,6 +17,7 @@ class MealFixtures extends Fixture implements DependentFixtureInterface
         foreach (MEALS as $key => $MEAL){
             $meal = new Meal();
             $meal->setWording($MEAL);
+            $meal->setPhoto(mb_strtolower($MEAL).'.jpg');
 
             foreach (FOODS as $FOOD){
                 if(random_int(0,2) === 1){
