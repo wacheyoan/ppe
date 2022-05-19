@@ -1,6 +1,7 @@
 <template>
 
 <div class="center">
+
   <v-form
       ref="form"
       v-model="valid"

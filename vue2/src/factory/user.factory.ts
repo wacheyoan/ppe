@@ -17,8 +17,8 @@ export default {
             birthDate: new Date(rawUser.birthDate),
             gender: rawUser.gender,
             createdAt: new Date(rawUser.createdAt),
-            activity: ActivityFactory.formatRawActivityToActivity(rawUser.activity),
-            objective: ObjectiveFactory.formatRawObjectiveToObjective(rawUser.objective)
+            activity: rawUser.activity ? ActivityFactory.formatRawActivityToActivity(rawUser.activity) :null,
+            objective: rawUser.objective ?ObjectiveFactory.formatRawObjectiveToObjective(rawUser.objective) :null
         }
     }
 }

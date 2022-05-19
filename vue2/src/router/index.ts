@@ -58,7 +58,6 @@ const routes: Array<RouteConfig> = [
     path: '/aliments',
     name: 'All',
     component: () => import('../views/All.vue'),
-    meta: {requiresAuth: true}
   },
   {
     path: '/cooking/:id',

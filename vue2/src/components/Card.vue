@@ -2,7 +2,7 @@
   <v-card
       class="mx-auto"
       max-width="400"
-      rounded="xl"
+      rounded="l"
   >
     <v-carousel
         hide-delimiters
@@ -22,7 +22,9 @@
     <v-card-text class="text--primary">
       <div class="meals">
       {{
-        foodPlan.meals.map(meal => meal.foods.map(food => food.wording).join(', ')).join('\n')
+        foodPlan.meals.map(meal => {
+          return `${meal.wording} (${meal.calories} Kcal)`
+        }).join(', ')
       }}
       </div>
     </v-card-text>
@@ -53,5 +55,6 @@
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
+  text-transform: lowercase;
 }
 </style>

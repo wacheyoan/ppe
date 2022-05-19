@@ -3,7 +3,7 @@ import {Category} from "@/interfaces/category.interface";
 import categoryFactory from "@/factory/category.factory";
 
 export default {
-    async getAllMeals(): Promise<Category[]> {
+    async getAllCategories(): Promise<Category[]> {
         const rawCategories = await categoryRepository.getAllCategories();
         const categories: Category[] = [];
         rawCategories['hydra:member'].forEach((rawCategory: any) => {

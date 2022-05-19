@@ -52,8 +52,9 @@ export default {
   },
   async mounted() {
     this.loading = true;
-    await this.$store.dispatch("actionUpdateFoodPlansOfUser");
-    this.loading = false;
+    await this.$store.dispatch("actionUpdateFoodPlansOfUser").finally(() => {
+      this.loading = false;
+    });
   },
   computed: {
     getFoodPlans() {
@@ -65,9 +66,11 @@ export default {
     async generate() {
       this.overlay = false;
       this.loading = true;
-      await this.generateFoodPlan({userId:store.getters.StateUser.id,nbMeal:this.numberValue});
-      await this.$store.dispatch("actionUpdateFoodPlansOfUser");
-      this.loading = false;
+      await this.generateFoodPlan({userId:store.getters.StateUser.id,nbMeal:this.numberValue}).then(async () => {
+        await this.$store.dispatch("actionUpdateFoodPlansOfUser").finally(() => {
+          this.loading = false;
+        });
+      });
     },
   },
 };

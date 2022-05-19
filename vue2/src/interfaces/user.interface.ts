@@ -14,6 +14,6 @@ export interface User {
   lastName: string;
   birthDate: Date;
   gender:string;
-  activity: Activity;
-  objective: Objective;
+  activity: Activity | null;
+  objective: Objective | null;
 }
