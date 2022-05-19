@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter, { RouteConfig } from 'vue-router'
-import Home from '../views/Home.vue'
 import store from "@/store";
 
 Vue.use(VueRouter)
@@ -9,7 +8,7 @@ const routes: Array<RouteConfig> = [
   {
     path: '/',
     name: 'Home',
-    component: Home,
+    component: () => import('../views/Home.vue'),
     meta: {requiresAuth: true}
   },
   {
@@ -58,7 +57,7 @@ const routes: Array<RouteConfig> = [
     path: '/aliments',
     name: 'All',
     component: () => import('../views/All.vue'),
-  },
+    },
   {
     path: '/cooking/:id',
     name: 'Cooking',
