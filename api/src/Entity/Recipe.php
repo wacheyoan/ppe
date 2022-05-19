@@ -2,21 +2,23 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Filters\RecipeFilter;
 use App\Repository\RecipeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-
-/**
+    /**
  * @ORM\Entity(repositoryClass=RecipeRepository::class)
  * @ORM\HasLifecycleCallbacks
  * @ApiResource(
  *     normalizationContext={"groups"={"recipe:read"}},
  *     denormalizationContext={"groups"={"recipe:write"}}
  * )
+ * @ApiFilter(RecipeFilter::class)
  */
 class Recipe
 {

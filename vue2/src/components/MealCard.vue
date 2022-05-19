@@ -34,6 +34,7 @@
       <v-btn
           color="orange"
           text
+          :to="`/aliments/meals/${meal.id}`"
       >
         Voir le repas
       </v-btn>

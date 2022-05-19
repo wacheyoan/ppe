@@ -10,5 +10,9 @@ export default {
             recipes.push(recipeFactory.formatRawRecipeToRecipe(rawRecipe));
         })
         return recipes;
-    }
+    },
+    async getRecipeById(id: number) {
+        const rawRecipe = await recipeRepository.getRecipeById(id);
+        return recipeFactory.formatRawRecipeToRecipe(rawRecipe['hydra:member'][0]);
+    },
 }

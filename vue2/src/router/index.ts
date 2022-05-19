@@ -25,8 +25,8 @@ const routes: Array<RouteConfig> = [
     meta: { guest: true }
   },
   {
-    path: '/cook',
-    name: 'Cook',
+    path: '/foodplan',
+    name: 'FoodplanIndex',
     component: () => import('../views/Cook.vue'),
     meta: {requiresAuth: true}
   },
@@ -40,6 +40,30 @@ const routes: Array<RouteConfig> = [
     path: '/foodplan/:id',
     name: 'Foodplan',
     component: () => import('../views/FoodPlan.vue'),
+    meta: {requiresAuth: true}
+  },
+  {
+    path: '/aliments/meals/:id',
+    name: 'Meal',
+    component: () => import('../views/Meal.vue'),
+    meta: {requiresAuth: true}
+  },
+  {
+    path: '/aliments/foods/:id',
+    name: 'Food',
+    component: () => import('../views/Food.vue'),
+    meta: {requiresAuth: true},
+  },
+  {
+    path: '/aliments',
+    name: 'All',
+    component: () => import('../views/All.vue'),
+    meta: {requiresAuth: true}
+  },
+  {
+    path: '/cooking/:id',
+    name: 'Cooking',
+    component: () => import('../views/Cooking.vue'),
     meta: {requiresAuth: true}
   }
 

@@ -155,6 +155,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\ManyToOne(targetEntity=Activity::class)
+     * @Groups({
+     *     "user:read","user:write"
+     * })
      */
     private $activity;
 
@@ -165,6 +168,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\ManyToOne(targetEntity=Objective::class)
+     * @Groups({
+     *     "user:read","user:write"
+     * })
      */
     private $objective;
 
@@ -195,11 +201,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     /**
      * @ORM\Column(type="date")
+     * @Groups({
+     *     "user:read","user:write"
+     * })
+     *
      */
     private $birthDate;
 
     /**
      * @ORM\Column(type="string", length=1)
+     * @Groups({
+     *     "user:read","user:write"
+     * })
      */
     private $gender;
 
