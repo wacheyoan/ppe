@@ -30,16 +30,7 @@ class FoodPlanController extends AbstractController
 
         $meals = $mealRepository->getMealsByNbMeal($user->getCalories());
 
-        $combinations = $this->perm($meals, $data['nbMeal'] + 1);
-
-        foreach ($combinations as &$combination) {
-            sort($combination);
-        }
-        unset($combination);
-
-        $combinations = array_filter($combinations, static function($combination){
-            return count(array_unique($combination)) === count($combination);
-        });
+        $combinations = $this->perm($meals, $data['nbMeal'] );
 
         $combinations = array_values(array_map("unserialize", array_unique(array_map("serialize", $combinations))));
 
@@ -54,6 +45,7 @@ class FoodPlanController extends AbstractController
 
 
         foreach ($combinations as $combination) {
+
             $totalCalories = 0;
 
             foreach ($combination as &$meal) {
@@ -64,7 +56,7 @@ class FoodPlanController extends AbstractController
             }
             unset($meal);
 
-            if ($totalCalories <= $user->getCalories()) {
+            if ($totalCalories <= $user->getCalories() && $totalCalories >= $user->getCalories() - 500) {
                 $foodPlan = new FoodPlan();
                 $user->addFoodPlan($foodPlan);
                 foreach ($combination as $meal) {

@@ -688,7 +688,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getCalories()
     {
-        return $this->getEntretien();
+        return $this->getEntretien() - 1000;
     }
 
 }
