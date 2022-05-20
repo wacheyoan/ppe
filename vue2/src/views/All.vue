@@ -44,7 +44,7 @@
             mdi-plus
           </v-icon>
           <v-icon v-if="camera">
-            mdi-cross
+            mdi-close
           </v-icon>
         </v-btn>
         <small>Code barre</small>
@@ -59,6 +59,7 @@
       <v-form
         ref="form"
         v-model="valid"
+        lazy-validation
       >
         <v-text-field
           label="Nom du produit"
@@ -76,18 +77,21 @@
           v-model="product.carbohydrates"
           type="number"
           :rules="[v => !!v || 'Champ obligatoire']"
+          @input="calculateCalories"
         ></v-text-field>
         <v-text-field
           label="Protéines"
           v-model="product.proteins"
           type="number"
           :rules="[v => !!v || 'Champ obligatoire']"
+          @input="calculateCalories"
         ></v-text-field>
         <v-text-field
           label="Lipides"
           v-model="product.fat"
           type="number"
           :rules="[v => !!v || 'Champ obligatoire']"
+          @input="calculateCalories"
         ></v-text-field>
         <v-select v-model="select"
           :items="getAllCategories"
@@ -159,7 +163,15 @@ export default {
       filterFood: true,
       filterMeal: true,
       camera: false,
-      product: null,
+      product: {
+        name: '',
+        calories: 0,
+        carbohydrates: 0,
+        proteins: 0,
+        sugars: 0,
+        fat: 0,
+        saturated_fat: 0,
+      },
       overlay: false,
       vegan:false,
       select: '',
@@ -177,17 +189,20 @@ export default {
     }
   },
   methods: {
+    calculateCalories() {
+      this.product.calories = this.product.carbohydrates * 4 + this.product.proteins * 4 + this.product.fat * 9;
+    },
     addNewFood(){
       if(this.product && this.select.id){
         foodService.addFood({
           id:null,
           wording: this.product.name,
-          calories: this.product.calories,
-          carbohydrate: this.product.carbohydrates,
-          protein: this.product.proteins,
-          fat: this.product.fat,
-          saturatedFat: this.product.saturated_fat,
-          sugar: this.product.sugars,
+          calories: Number(this.product.calories),
+          carbohydrate: Number(this.product.carbohydrates),
+          protein: Number(this.product.proteins),
+          fat: Number(this.product.fat),
+          saturatedFat: Number(this.product.saturated_fat),
+          sugar: Number(this.product.sugars),
           vegan: false,
         }).then(() => {
           this.product = null;
