@@ -114,7 +114,7 @@
           class="white--text"
           color="success"
           @click="addNewFood"
-          :disabled="valid"
+          :disabled="!valid"
       >
         Ajouter
       </v-btn>
