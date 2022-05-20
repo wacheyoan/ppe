@@ -67,25 +67,25 @@
         ></v-text-field>
         <v-text-field
           label="Calories"
-          v-model="calories"
+          v-model="product.calories"
           type="number"
           :rules="[v => !!v || 'Champ obligatoire']"
         ></v-text-field>
         <v-text-field
           label="Glucides"
-          v-model="carbs"
+          v-model="product.carbohydrates"
           type="number"
           :rules="[v => !!v || 'Champ obligatoire']"
         ></v-text-field>
         <v-text-field
           label="Protéines"
-          v-model="proteins"
+          v-model="product.proteins"
           type="number"
           :rules="[v => !!v || 'Champ obligatoire']"
         ></v-text-field>
         <v-text-field
           label="Lipides"
-          v-model="fats"
+          v-model="product.fat"
           type="number"
           :rules="[v => !!v || 'Champ obligatoire']"
         ></v-text-field>
@@ -161,12 +161,6 @@ export default {
       camera: false,
       product: null,
       overlay: false,
-      calories: 0,
-      carbs:0,
-      proteins:0,
-      fats:0,
-      saturatedFat:0,
-      sugar:0,
       vegan:false,
       select: '',
       valid: false
@@ -184,26 +178,19 @@ export default {
   },
   methods: {
     addNewFood(){
-      if(this.product.name && null !== this.calories && null !== this.carbs && null !== this.proteins && null !== this.fats && this.select.id){
+      if(this.product && this.select.id){
         foodService.addFood({
           id:null,
           wording: this.product.name,
-          calories: this.calories,
-          carbohydrate: this.carbs,
-          protein: this.proteins,
-          fat: this.fats,
-          saturatedFat: this.saturatedFat,
-          sugar: this.sugar,
-          vegan: this.vegan,
+          calories: this.product.calories,
+          carbohydrate: this.product.carbohydrates,
+          protein: this.product.proteins,
+          fat: this.product.fat,
+          saturatedFat: this.product.saturated_fat,
+          sugar: this.product.sugars,
+          vegan: false,
         }).then(() => {
           this.product = null;
-          this.calories = 0;
-          this.carbs = 0;
-          this.proteins = 0;
-          this.fats = 0;
-          this.saturatedFat = 0;
-          this.sugar = 0;
-          this.vegan = false;
           this.select = '';
           this.valid = false;
           this.getAll();
@@ -212,9 +199,9 @@ export default {
         });
       }
     },
-    onDecode(text)
-    {
-      this.product = ProductService.getProductByEAN(text);
+    async onDecode(text) {
+      this.product = await ProductService.getProductByEAN(text+".json");
+      this.overlay = true;
       this.camera = false;
     },
     onLoaded()
@@ -238,7 +225,7 @@ export default {
         this.aliments = this.aliments.concat(await this.getAllMeals());
       }
     },
-    allowCamera() {
+    async allowCamera() {
       this.camera = !this.camera;
     },
     filterFoodF() {

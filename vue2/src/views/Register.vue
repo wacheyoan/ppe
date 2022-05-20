@@ -110,6 +110,8 @@
             v-model="date"
             scrollable
             locale="fr-FR"
+            min="1930-01-01"
+            max="2008-12-31"
         >
           <v-spacer></v-spacer>
           <v-btn

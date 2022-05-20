@@ -2,7 +2,7 @@
   <v-card
       class="mx-auto"
       max-width="400"
-      rounded="xl"
+      rounded="l"
   >
 
     <v-carousel

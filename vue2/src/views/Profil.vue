@@ -1,27 +1,30 @@
 <template>
   <div class="main-container">
-    <span v-if="isLoggedIn">
-      <a @click="logout" >Déconnexion</a>
-    </span>
+
     <v-card v-if="user"
         elevation="2"
         outlined
         tile
     >
-      <v-card-text class="content">
+      <v-card-text>
         <v-card-title>Informations</v-card-title>
+        <div class="content">
         <span>{{ user.firstName}} {{user.lastName}}</span>
         <span>{{ user.email }}</span>
         <span>{{ user.birthDate | ageFromBirthDate }} ans</span>
         <span>Objectif : {{ user.objective.wording}}</span>
         <span>Niveau d'activité : {{ user.activity.wording }}</span>
-        <v-card-actions>
+        </div>
+        <v-card-actions class="button-container">
           <v-btn
               color="orange"
               text
           >
             Editer
           </v-btn>
+              <v-btn v-if="isLoggedIn" @click="logout">
+             Déconnexion
+            </v-btn>
         </v-card-actions>
       </v-card-text>
     </v-card>
@@ -33,9 +36,11 @@
     >
       <v-card-text class="content">
         <v-card-title>Objectifs</v-card-title>
+        <div class="content">
         <span>Métabolisme basal : {{getBMR()}} Kcal</span>
         <span>Entretien : {{getEntretien()}} Kcal</span>
         <span>Objectif calorique : {{getCalories()}} Kcal</span>
+        </div>
       </v-card-text>
     </v-card>
 
@@ -80,16 +85,21 @@ export default {
 
 <style scoped>
 .content{
+  padding: 14px;
   display: flex;
   flex-direction: column;
   gap: 4px;
-  >span{
-    padding: 0 16px;
-  }
+
 }
 .main-container{
   display: flex;
   flex-direction: column;
   gap: 24px;
+}
+
+.button-container
+{
+  display: flex;
+  justify-content: space-between;
 }
 </style>

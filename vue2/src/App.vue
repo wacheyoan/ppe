@@ -14,7 +14,9 @@
         <v-icon>mdi-clipboard-text-multiple-outline </v-icon>
       </v-btn>
 
-      <v-btn to="/aliments"     active-class=""
+      <v-btn
+          to="/aliments"
+          active-class=""
       >
         <span>Aliments</span>
         <v-icon>mdi-food-fork-drink </v-icon>
@@ -26,7 +28,11 @@
         <v-icon>mdi-heart</v-icon>
       </v-btn>
 
-      <v-btn to="/cooking"    active-class=""
+
+      <v-btn
+          to="/cooking"
+          active-class=""
+          disabled
       >
         <span>Cuisine</span>
         <v-icon>mdi-chef-hat </v-icon>
@@ -113,5 +119,8 @@ div[role="progressbar"]
   top: 0;
   transform: translate(50%, 50%);
 }
+
+
+
 </style>
 

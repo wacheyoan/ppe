@@ -47,7 +47,7 @@ class UserController extends AbstractController
         $user->setActivity($activity);
         $user->setFirstName($request->get('firstName'));
         $user->setLastName($request->get('lastName'));
-        $user->setBirthDate(new \DateTime($request->get('birthDate')));
+        $user->setBirthDate(new \DateTime($request->get('date')));
         $user->setGender($request->get('sexe'));
         $user->setWeight($request->get('weight'));
         $user->setHeight($request->get('height'));

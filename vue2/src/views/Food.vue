@@ -7,6 +7,7 @@
       <v-img
           :src="require(`../../src/assets/images/${meal.photo ? meal.photo : 'logo.jpg'}`)"
           aspect-ratio="1"
+          contain
       >
       </v-img>
     </div>

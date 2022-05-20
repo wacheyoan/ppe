@@ -3,8 +3,13 @@ import ProductRepository from "@/repository/product.repository";
 import ProductFactory from "@/factory/product.factory";
 
 export default {
-    async getProductByEAN(ean:string): Promise<Product> {
+    async getProductByEAN(ean:string): Promise<Product| null> {
         const rawProduct = await ProductRepository.getProductByEAN(ean);
-        return ProductFactory.formatRawProductToProduct(rawProduct);
+        if(undefined !== rawProduct.product)
+        {
+            return ProductFactory.formatRawProductToProduct(rawProduct.product);
+        }else{
+            return null;
+        }
     }
 }

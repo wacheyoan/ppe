@@ -1,6 +1,9 @@
 export interface Product {
-    brand_name: string;
-    gtin14: string;
     name: string;
-    size: string;
+    fat: number;
+    saturated_fat: number;
+    sugars: number;
+    carbohydrates: number;
+    proteins: number;
+    calories: number;
 }

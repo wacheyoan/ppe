@@ -3,10 +3,13 @@ import {Product} from "@/interfaces/product.interface";
 export default {
     formatRawProductToProduct(rawProduct: Readonly<any>): Product {
         return {
-           brand_name: rawProduct.brand_name,
-           name: rawProduct.name,
-           gtin14: rawProduct.gtin14,
-           size: rawProduct.size
+           name: rawProduct.product_name,
+            fat: rawProduct.nutriments.fat,
+            carbohydrates: rawProduct.nutriments.carbohydrates,
+            proteins: rawProduct.nutriments.proteins,
+            sugars: rawProduct.nutriments.sugars,
+            saturated_fat: rawProduct.nutriments['saturated-fat'],
+            calories: rawProduct.nutriments["energy-kcal"],
         }
     }
 }
