@@ -4,8 +4,57 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "db6deb8fbab2055c3e75e7a1ddbf41b2",
+    "content-hash": "d5715e0b874ecf9e5d4a9b885e28e092",
     "packages": [
+        {
+            "name": "alphazygma/combinatorics",
+            "version": "1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/alphazygma/Combinatorics.git",
+                "reference": "797e3e4dfbdc5090d04432d866ce9780fb1d6cb9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/alphazygma/Combinatorics/zipball/797e3e4dfbdc5090d04432d866ce9780fb1d6cb9",
+                "reference": "797e3e4dfbdc5090d04432d866ce9780fb1d6cb9",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Math\\Combinatorics\\": "src/Math/Combinatorics"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Alejandro Salazar",
+                    "email": "alphazygma@gmail.com"
+                }
+            ],
+            "description": "Math libraries for Combinatorics (Combinations, Permutations, ...).",
+            "keywords": [
+                "combination",
+                "combinatorics",
+                "math",
+                "permutation"
+            ],
+            "support": {
+                "issues": "https://github.com/alphazygma/Combinatorics/issues",
+                "source": "https://github.com/alphazygma/Combinatorics/tree/master"
+            },
+            "time": "2016-03-29T00:49:20+00:00"
+        },
         {
             "name": "api-platform/core",
             "version": "v2.6.8",
@@ -7223,8 +7272,9 @@
     "platform": {
         "php": ">=7.2.5",
         "ext-ctype": "*",
-        "ext-iconv": "*"
+        "ext-iconv": "*",
+        "ext-json": "*"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.0.0"
 }

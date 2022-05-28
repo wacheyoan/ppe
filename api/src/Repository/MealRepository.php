@@ -46,16 +46,24 @@ class MealRepository extends ServiceEntityRepository
         }
     }
 
-    public function getMealsByNbMeal($nbCalories): array
+    public function getAllMealsId(int $userId): array
     {
         $qb = $this->createQueryBuilder('m');
+
         return $qb
-            ->innerJoin('m.foods', 'f')
-            ->leftJoin('m.userDislike', 'ud')
-            ->andWhere('ud.id IS NULL')
-            ->groupBy('m.id')
-            ->having('(SUM(f.carbohydrate) * 4 + SUM(f.protein) * 4 + SUM(f.fat) * 9) < :nbCalories')
-            ->setParameter('nbCalories', $nbCalories)
+            ->select('DISTINCT m.id')
+            ->andWhere(
+                $qb->expr()->notIn(
+                    'm.id',
+                    $this->createQueryBuilder('m2')
+                        ->select('DISTINCT m2.id')
+                        ->innerJoin('m2.foods', 'f2')
+                        ->leftJoin('m2.userDislike', 'ud2')
+                        ->where('ud2.id = :userId')
+                        ->getDQL()
+                )
+            )
+            ->setParameter('userId', $userId)
             ->getQuery()
             ->getResult()
         ;

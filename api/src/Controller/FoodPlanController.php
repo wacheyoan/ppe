@@ -10,6 +10,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Math\Combinatorics\Combination;
+
 
 class FoodPlanController extends AbstractController
 {
@@ -28,11 +30,9 @@ class FoodPlanController extends AbstractController
              return new JsonResponse(['error' => 'User not found'], 404);
         }
 
-        $meals = $mealRepository->getMealsByNbMeal($user->getCalories());
+        $meals = $mealRepository->getAllMealsId($user->getId());
 
-        $combinations = $this->perm($meals, $data['nbMeal'] );
-
-        $combinations = array_values(array_map("unserialize", array_unique(array_map("serialize", $combinations))));
+        $combinations = Combination::get($meals, $data['nbMeal']);
 
         if($combinations > 0)
         {
@@ -41,8 +41,6 @@ class FoodPlanController extends AbstractController
                 $em->flush();
             }
         }
-
-
 
         foreach ($combinations as $combination) {
 
@@ -73,26 +71,7 @@ class FoodPlanController extends AbstractController
         return new JsonResponse(['success' => 'Food plan generated'], 200);
     }
 
-    private function perm($arr, $n, $result = array())
-    {
-        if($n <= 0) return false;
-        $i = 0;
 
-        $new_result = array();
-        foreach($arr as $r) {
-            if(count($result) > 0) {
-                foreach($result as $res) {
-                    $new_element = array_merge($res, array($r));
-                    $new_result[] = $new_element;
-                }
-            } else {
-                $new_result[] = array($r);
-            }
-        }
-
-        if($n == 1) return $new_result;
-        return $this->perm($arr, $n - 1, $new_result);
-    }
 
 
 

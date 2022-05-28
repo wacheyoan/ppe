@@ -7,6 +7,8 @@
         "php": ">=7.2.5",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "ext-json": "*",
+        "alphazygma/combinatorics": "^1.0",
         "api-platform/core": "^2.6",
         "doctrine/annotations": "^1.0",
         "doctrine/doctrine-bundle": "^2.5",
@@ -31,8 +33,7 @@
         "symfony/serializer": "5.4.*",
         "symfony/twig-bundle": "5.4.*",
         "symfony/validator": "5.4.*",
-        "symfony/yaml": "5.4.*",
-      "ext-json": "*"
+        "symfony/yaml": "5.4.*"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.4",
