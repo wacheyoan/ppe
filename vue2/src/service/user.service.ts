@@ -21,7 +21,7 @@ export default {
     },
     getBMR(user: User): number {
         const coeff = user.gender === "M" ? 5 : -161;
-        return 10 * user.weight + 6.25 * user.height + 5 * this.getAge(user) + coeff;
+        return 10 * user.weight + 6.25 * user.height - 5 * this.getAge(user) + coeff;
     },
     getEntretien(user:User): number{
         return this.getBMR(user) * (user.activity ? user.activity.coefficient : 1);

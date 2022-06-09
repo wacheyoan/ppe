@@ -676,7 +676,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getBMR()
     {
         $coeff = $this->getGender() === "M" ? 5 : -161;
-        $total = 10 * $this->getWeight() + 6.25 * $this->getHeight() + 5 * $this->getAge();
+        $total = 10 * $this->getWeight() + 6.25 * $this->getHeight() - 5 * $this->getAge();
 
         return $total + $coeff;
     }

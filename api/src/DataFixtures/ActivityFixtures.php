@@ -9,23 +9,19 @@ use Doctrine\Persistence\ObjectManager;
 CONST ACTIVITIES = [
     [
         'wording' => 'SEDENTARY',
-        'coeff'   => 1.2
-    ],
-    [
-        'wording' => 'SLIGHTLY ACTIVE',
-        'coeff'   => 1.375
-    ],
-    [
-        'wording' => 'ACTIVE',
         'coeff'   => 1.55
     ],
     [
+        'wording' => 'SLIGHTLY ACTIVE',
+        'coeff'   => 1.85
+    ],
+    [
         'wording' => 'VERY ACTIVE',
-        'coeff'   => 1.725
+        'coeff'   => 2.2
     ],
     [
         'wording' => 'EXTREMELY ACTIVE',
-        'coeff'   => 1.9
+        'coeff'   => 2.4
     ],
 ];
 
